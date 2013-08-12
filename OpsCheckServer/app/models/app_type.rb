@@ -1,4 +1,3 @@
 class AppType < ActiveRecord::Base
-  validates :name, presence: true
-  validates :identifier, presence: true
+  validates :name, :identifier, presence: true
 end
