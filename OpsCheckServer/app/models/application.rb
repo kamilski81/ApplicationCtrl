@@ -1,5 +1,6 @@
 class Application < ActiveRecord::Base
   belongs_to :app_type
-  validates :name, :key, :app_type_id, :user_id, presence: true
+  belongs_to :user
+  validates :name, :key, :identifier, :app_type_id, :user_id, presence: true
   has_many :versionings
 end

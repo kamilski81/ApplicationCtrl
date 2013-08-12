@@ -14,6 +14,7 @@
     <% @app_types.each do |app_type| %>
       <tr>
         <td><%= app_type.name %></td>
+        <td></td>
         <td><%= link_to 'Show', app_type %></td>
         <td><%= link_to 'Edit', edit_app_type_path(app_type) %></td>
         <td><%= link_to 'Destroy', app_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -23,6 +23,9 @@ class ApplicationsController < ApplicationController
   # POST /applications
   def create
     @application = Application.new(application_params)
+    @application.user = current_user
+
+    @application.key = Digest::HMAC.hexdigest(@application.name, current_user.email, Digest::SHA1)
 
     if @application.save
       redirect_to @application, notice: 'Application was successfully created.'
@@ -54,6 +57,6 @@ class ApplicationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def application_params
-      params.require(:application).permit(:name, :key, :app_type_id)
+      params.require(:application).permit(:name, :identifier, :app_type_id)
     end
 end
