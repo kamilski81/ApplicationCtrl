@@ -1,0 +1,33 @@
+<h1>Listing versionings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Text</th>
+      <th>Status</th>
+      <th>References</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @versionings.each do |versioning| %>
+      <tr>
+        <td><%= versioning.version %></td>
+        <td><%= versioning.text %></td>
+        <td><%= versioning.status %></td>
+        <td><%= versioning.references %></td>
+        <td><%= link_to 'Show', versioning %></td>
+        <td><%= link_to 'Edit', edit_versioning_path(versioning) %></td>
+        <td><%= link_to 'Destroy', versioning, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Versioning', new_versioning_path %>

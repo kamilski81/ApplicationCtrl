@@ -1,0 +1,14 @@
+<%= simple_form_for(@versioning) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="inputs">
+    <%= f.input :version %>
+    <%= f.input :text %>
+    <%= f.input :status %>
+    <%= f.input :references %>
+  </div>
+
+  <div class="actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

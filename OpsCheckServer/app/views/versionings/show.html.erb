@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @versioning.version %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @versioning.text %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @versioning.status %>
+</p>
+
+<p>
+  <strong>References:</strong>
+  <%= @versioning.references %>
+</p>
+
+<%= link_to 'Edit', edit_versioning_path(@versioning) %> |
+<%= link_to 'Back', versionings_path %>
