@@ -25,6 +25,8 @@ gem 'unicorn'
 gem 'devise'
 gem 'turbolinks'
 
+gem 'jbuilder'
+
 group :development do
   gem 'foreman'
   gem 'better_errors'

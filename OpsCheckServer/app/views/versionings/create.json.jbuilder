@@ -1,0 +1,1 @@
+json.extract! @result, :code, :versioning_status, :error
