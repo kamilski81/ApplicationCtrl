@@ -2,8 +2,6 @@ class ApplicationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_application, only: [:show, :edit, :update, :destroy]
 
-  has_many :versionings
-
   # GET /applications
   def index
     @applications = Application.all
