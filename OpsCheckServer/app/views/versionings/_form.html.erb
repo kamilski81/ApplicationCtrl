@@ -3,9 +3,8 @@
 
   <div class="inputs">
     <%= f.input :version %>
-    <%= f.input :text %>
-    <%= f.input :status %>
-    <%= f.input :references %>
+    <%= f.input :build %>
+    <%= f.association :app %>
   </div>
 
   <div class="actions">

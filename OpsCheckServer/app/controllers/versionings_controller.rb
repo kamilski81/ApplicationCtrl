@@ -1,5 +1,4 @@
 class VersioningsController < ApplicationController
-  before_action :authenticate_user!, except: [:create]
   before_action :set_versioning, only: [:show, :edit, :update, :destroy]
 
   # GET /versionings
@@ -22,11 +21,7 @@ class VersioningsController < ApplicationController
 
   # POST /versionings
   def create
-    if user_signed_in? # check if user is currently logged in because we are not using devise to check this path
-      @versioning = Versioning.new(versioning_params)
-    else # check for application token
-
-    end
+    @versioning = Versioning.new(versioning_params)
 
     if @versioning.save
       redirect_to @versioning, notice: 'Versioning was successfully created.'
@@ -58,6 +53,6 @@ class VersioningsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def versioning_params
-      params.require(:versioning).permit(:version, :text, :status, :references)
+      params.require(:versioning).permit(:version, :build, :status, :app_id)
     end
 end

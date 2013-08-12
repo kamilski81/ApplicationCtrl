@@ -7,7 +7,7 @@
 
 <p>
   <strong>Text:</strong>
-  <%= @versioning.text %>
+  <%= @versioning.build %>
 </p>
 
 <p>
@@ -16,8 +16,8 @@
 </p>
 
 <p>
-  <strong>References:</strong>
-  <%= @versioning.references %>
+  <strong>App:</strong>
+  <%= @versioning.app %>
 </p>
 
 <%= link_to 'Edit', edit_versioning_path(@versioning) %> |

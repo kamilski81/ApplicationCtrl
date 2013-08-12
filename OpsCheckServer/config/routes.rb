@@ -1,7 +1,7 @@
 OpsCheckServer::Application.routes.draw do
   resources :versionings
 
-  resources :applications
+  resources :apps
 
   resources :app_types
 

@@ -5,6 +5,6 @@ FactoryGirl.define do
     version "MyString"
     text "MyString"
     status 1
-    references ""
+    app nil
   end
 end
