@@ -8,13 +8,16 @@
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body class="<%= body_class %> container">
-    <%= render 'flashes' -%>
-    <%= yield %>
+<body class="<%= body_class %>">
+    <section class="container">
+      <%= render 'layouts/navigation' %>
+      <%= render 'flashes' -%>
+      <%= yield %>
+      <footer class="footer">
+        <p>&copy; Company 2013</p>
+        <!--<%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>-->
+      </footer>
+    </section>
     <%= render 'javascript' %>
-    <footer class="footer">
-      <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
-    </footer>
-
 </body>
 </html>
