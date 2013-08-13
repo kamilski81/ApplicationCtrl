@@ -17,9 +17,9 @@
     <% @versionings.each do |versioning| %>
       <tr>
         <td><%= versioning.version %></td>
-        <td><%= versioning.text %></td>
+        <td><%= versioning.build %></td>
         <td><%= versioning.status %></td>
-        <td><%= versioning.app %></td>
+        <td><%= versioning.app.name %></td>
         <td><%= link_to 'Show', versioning %></td>
         <td><%= link_to 'Edit', edit_versioning_path(versioning) %></td>
         <td><%= link_to 'Destroy', versioning, method: :delete, data: { confirm: 'Are you sure?' } %></td>

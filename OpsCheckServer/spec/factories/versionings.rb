@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :versioning do
     version "MyString"
-    text "MyString"
+    build "MyString"
     status 1
     app nil
   end

@@ -1,9 +1,9 @@
-You look great in Suspenders
-============================
+OpsCheck
+========
 
-Use the following guides for getting things done, programming well, and
-programming in style.
+The OpsCheck is a set of tool that tracks application release. Users are able to set which
+ particular application version is still able to run with their current system.
+The tool has two components:
+- Server: automatically collects information about new app versions
+- Client Library: provides information to the server, e.g. version and build of the app.
 
-* [Protocol](http://github.com/thoughtbot/guides/blob/master/protocol)
-* [Best Practices](http://github.com/thoughtbot/guides/blob/master/best-practices)
-* [Style](http://github.com/thoughtbot/guides/blob/master/style)
