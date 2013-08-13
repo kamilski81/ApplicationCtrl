@@ -1,4 +1,7 @@
 OpsCheckServer::Application.routes.draw do
+
+  match 'versionings/check', to: 'versionings#check', via: :get
+
   resources :versionings
 
   resources :apps
@@ -6,7 +9,6 @@ OpsCheckServer::Application.routes.draw do
   resources :app_types
 
   devise_for :users
-
 
   root :to => "home#index"
 end

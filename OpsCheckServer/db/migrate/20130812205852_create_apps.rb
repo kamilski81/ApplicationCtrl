@@ -3,7 +3,7 @@ class CreateApps < ActiveRecord::Migration
     create_table :apps do |t|
       t.string :name, null: false
       t.string :identifier, null: false
-      t.string :key, null: false
+      t.string :key, index: true, null: false
       t.references :app_type, index: true, null: false
       t.references :user, index: true, null: false
 

@@ -1,8 +1,6 @@
 class VersioningsController < ApplicationController
-  before_action :authenticate_user!, except: [:create]
+  before_action :authenticate_user!, except: [:check]
   before_action :set_versioning, only: [:show, :edit, :update, :destroy]
-
-  protect_from_forgery except: :create
 
 
   # GET /versionings
@@ -25,53 +23,13 @@ class VersioningsController < ApplicationController
 
   # POST /versionings
   def create
+    @versioning = Versioning.new(versioning_params)
 
-    if user_signed_in?
-      @versioning = Versioning.new(versioning_params)
-
-      if @versioning.save
-        redirect_to @versioning, notice: 'Versioning was successfully created.'
-      else
-        render action: 'new'
-      end
+    if @versioning.save
+      redirect_to @versioning, notice: 'Versioning was successfully created.'
     else
-      app_key = params['app_key']
-      #check for the api key
-      application = App.where(key: app_key).first
-
-      @result = {
-          error: nil,
-          code: 0,
-          versioning_status: nil
-      }
-      code = 0
-      if not application.nil?
-
-        versioning = Versioning.where(app_id: application.id).first
-
-        if versioning.nil?
-          code = 2 # we need to create a new entry
-          versioning = Versioning.new(versioning_params)
-          versioning.status = 1
-          versioning.app = application
-
-
-          if versioning.save
-            @result.merge!({versioning_status: versioning.status, code: code})
-          else
-            @result.merge!({error: 'Not able to create a new versioning entry', code: code})
-          end
-        else
-          code = 1 # we are fetching the entry from the db
-          @result.merge!({versioning_status: versioning.status, code: code})
-        end
-      else
-        code = -1
-        @result.merge!({error: 'The application does not exist', code: code})
-      end
-
+      render action: 'new'
     end
-
   end
 
   # PATCH/PUT /versionings/1
@@ -88,6 +46,52 @@ class VersioningsController < ApplicationController
     @versioning.destroy
     redirect_to versionings_url, notice: 'Versioning was successfully destroyed.'
   end
+
+
+  # HEADERS['version']
+
+
+  # GET /versionings/check
+  def check
+
+    header = 'CONNECT'
+    body = ''
+
+    app_key = params[:app_key]
+
+    if not app_key.nil?
+
+      application = App.where(key: app_key).first
+      if application.nil?
+        body = "No application found with the following app key #{app_key}"
+      else
+        versioning = Versioning.where(app_id: application.id).first
+        if versioning.nil?
+          versioning = Versioning.create(versioning_params)
+          versioning.status = 1
+          versioning.app = application
+
+          if versioning.save == false
+            header = "DON'T CONNECT"
+          end
+
+        else
+          if versioning.status == 0
+            header = 'ERROR'
+          end
+
+        end
+      end
+
+    else
+      header = 'ERROR'
+      body = 'No app key provided!'
+    end
+
+    response.headers['Version-check'] = header
+    render text: body
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
