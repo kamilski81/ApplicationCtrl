@@ -55,15 +55,20 @@ class VersioningsController < ApplicationController
   def check
 
     header = 'CONNECT'
-    body = ''
 
     app_key = params[:app_key]
+    version = params[:version]
+    build = params[:build]
 
-    if not app_key.nil?
-
+    if app_key.nil? || version.nil? || build.nil?
+      response.headers['Version-check'] = ''
+      render layout: false, status: :bad_request  # URL is not well formed
+    else
       application = App.where(key: app_key).first
       if application.nil?
-        body = "No application found with the following app key #{app_key}"
+        @body = "No application found with the following app key #{app_key}"
+        response.headers['Version-check'] = ''
+        render layout: false, status: :unauthorized    # no app key found
       else
         versioning = Versioning.where(app_id: application.id).first
         if versioning.nil?
@@ -73,23 +78,22 @@ class VersioningsController < ApplicationController
 
           if versioning.save == false
             header = "DON'T CONNECT"
+            @body = 'Not able to save the current version information into the db!'
           end
 
         else
           if versioning.status == 0
-            header = 'ERROR'
+            @body = 'Your current application version is outdated. Please update it!'
+            header = "DON'T CONNECT"
           end
 
         end
+
+        response.headers['Version-check'] = header
+        render layout: false
       end
 
-    else
-      header = 'ERROR'
-      body = 'No app key provided!'
     end
-
-    response.headers['Version-check'] = header
-    render text: body
   end
 
 
