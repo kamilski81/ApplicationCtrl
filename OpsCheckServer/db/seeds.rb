@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+AppType.create([{name: 'iOS'}, {name: 'Android'}])
+
+iOS_app_type = AppType.first
+user = User.first
+smartAlert_application = App.create({name: 'SmartAlert for iOS', identifier: 'com.slalom.smartAlert', app_type: iOS_app_type, user: user})

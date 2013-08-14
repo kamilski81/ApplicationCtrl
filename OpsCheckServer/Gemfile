@@ -22,10 +22,16 @@ gem 'simple_form'
 gem 'uglifier'
 gem 'unicorn'
 
+gem 'devise'
+gem 'turbolinks'
+
+gem 'jbuilder'
+
 group :development do
   gem 'foreman'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'thin'
 end
 
 group :development, :test do

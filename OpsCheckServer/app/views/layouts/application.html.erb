@@ -1,15 +1,30 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="ROBOTS" content="NOODP" />
-  <title><%= page_title %></title>
-  <%= stylesheet_link_tag :application, :media => 'all' %>
-  <%= csrf_meta_tags %>
+    <meta charset="utf-8"/>
+    <meta name="ROBOTS" content="NOODP"/>
+    <title><%= page_title %></title>
+    <%= stylesheet_link_tag :application, :media => 'all' %>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="<%= body_class %>">
-  <%= render 'flashes' -%>
-  <%= yield %>
-  <%= render 'javascript' %>
+    <section class="container">
+      <%= render 'layouts/navigation' %>
+      <%= render 'flashes' -%>
+      <%= yield %>
+      <footer class="footer">
+        <p>&copy; Company 2013</p>
+
+        <% if user_signed_in? %>
+            <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
+        <% else %>
+            <%= link_to "Sign in", new_user_session_path %>
+        <% end %>
+
+
+      </footer>
+    </section>
+    <%= render 'javascript' %>
 </body>
 </html>
