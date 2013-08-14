@@ -14,7 +14,6 @@ Bundler.require(:default, Rails.env)
 module OpsCheckServer
   class Application < Rails::Application
     config.active_record.default_timezone = :utc
-    config.force_ssl = true
 
   config.generators do |generate|
     generate.helper false
