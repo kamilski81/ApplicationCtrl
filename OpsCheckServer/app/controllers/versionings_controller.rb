@@ -55,19 +55,19 @@ class VersioningsController < ApplicationController
   def check
 
     header = 'CONNECT'
-
+    version_check_header =  'Version-Check'
     app_key = params[:app_key]
     version = params[:version]
     build = params[:build]
 
     if app_key.nil? || version.nil? || build.nil?
-      response.headers['Version-check'] = ''
+      response.headers[version_check_header] = ''
       render layout: false, status: :bad_request  # URL is not well formed
     else
       application = App.where(key: app_key).first
       if application.nil?
         @body = "No application found with the following app key #{app_key}"
-        response.headers['Version-check'] = ''
+        response.headers[version_check_header] = ''
         render layout: false, status: :unauthorized    # no app key found
       else
         versioning = Versioning.where(app_id: application.id).first
@@ -89,7 +89,7 @@ class VersioningsController < ApplicationController
 
         end
 
-        response.headers['Version-check'] = header
+        response.headers[version_check_header] = header
         render layout: false
       end
 
