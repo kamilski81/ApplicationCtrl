@@ -19,7 +19,7 @@
 /**
  * Send a sync request to the server
  */
-- (void)checkSyncVersion;
+- (BOOL)checkSyncVersion;
 
 
 /**
