@@ -1,5 +1,11 @@
-require 'spec_helper'
-
-describe AppType do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+#require 'spec_helper'
+#
+#describe AppType do
+#  before(:each) do
+#    @attr = {
+#        :email => "user@example.com",
+#        :password => "changeme",
+#        :password_confirmation => "changeme"
+#    }
+#  end
+#end
