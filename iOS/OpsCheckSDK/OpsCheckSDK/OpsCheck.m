@@ -26,13 +26,11 @@
 #define DEBUG_PREFIX @"DEBUG OPSCHECK -"
 
 
-@interface OpsCheck ()
+@interface OpsCheck () <NSURLConnectionDataDelegate>
 
 @property (nonatomic, strong) NSString *appKey;
 @property (nonatomic, strong) NSString *appVersion;
 @property (nonatomic, strong) NSString *appBuild;
-
-
 
 @end
 
@@ -66,11 +64,8 @@
     
     NSHTTPURLResponse *response = nil;
     NSError *error = nil;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self requestURL]]
-                                             cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                         timeoutInterval:10];
     
-    NSData *data = [self performSyncValidationWithRequest:request response:&response error:&error];
+    NSData *data = [self performSyncValidationWithRequest:[self request] response:&response error:&error];
     
     [self handleServerResponseWithResponse:response data:data error:error completionHandler:handler];
     
@@ -78,10 +73,8 @@
 
 
 - (void)checkAsyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self requestURL]]
-                                             cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                         timeoutInterval:10];
-    [NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [NSURLConnection sendAsynchronousRequest:[self request] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+         NSAssert([response isKindOfClass:[NSHTTPURLResponse class]], @"We received a non HTTP Response from the server.");
         [self handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:data error:error completionHandler:handler];
     }];
 }
@@ -153,6 +146,15 @@
     return requestUrl;
 }
 
+- (NSURLRequest *)request {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[self requestURL]]
+                                                    cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                timeoutInterval:30];
+    [request setHTTPMethod:@"GET"];
+
+    return request;
+    
+}
 
 - (NSData *)performSyncValidationWithRequest:(NSURLRequest *)request response:(NSHTTPURLResponse **)response error:(NSError **)error {
     return [NSURLConnection sendSynchronousRequest:request returningResponse:response error:error] ;
@@ -162,7 +164,6 @@
 - (NSURLConnection *)urlConnectionForURLRequest:(NSURLRequest *)request {
     return [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
-
 
 
 #pragma mark - print info

@@ -94,8 +94,13 @@
         BOOL check = TEST_STATUS_SUCCESS == status;
         STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", TEST_STATUS_SUCCESS, status);
     }];
-       
-    
+}
+
+- (void)testAsyncCommucationSuccessStatusCode {
+    [self.opsCheck checkAsyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
+        BOOL check = TEST_STATUS_SUCCESS == status;
+        STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", TEST_STATUS_SUCCESS, status);
+    }];
 }
 
 
