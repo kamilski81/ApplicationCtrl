@@ -15,7 +15,24 @@
 {
     
     OpsCheck *opsCheck = [OpsCheck opsCheckWithAppKey:@"d44992361e2014c8404f920f36928dada60a27c4"];
-    [opsCheck checkVersion];
+    
+//    [opsCheck checkSyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
+//        NSLog(@"Sync");
+//        NSLog(@"OpsCheck info: %@", [opsCheck info]);
+//        NSLog(@"Status: %d - Message: %@", status, message);
+//        NSLog(@"Connect: %d", connect);
+//    }];
+//    
+//    [opsCheck checkAsyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
+//        NSLog(@"Sync");
+//        NSLog(@"Error: %@", error);
+//        NSLog(@"OpsCheck info: %@", [opsCheck info]);
+//        NSLog(@"Status: %d - Message: %@", status, message);
+//        NSLog(@"Connect: %d", connect);
+//    }];
+    
+//    [opsCheck checkSyncVersionWithCompletionHandler:nil];
+    [opsCheck checkAsyncVersionWithCompletionHandler:nil];
     
     return YES;
 }
