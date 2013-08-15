@@ -17,19 +17,22 @@
 #define STATUS_CONNECT @"CONNECT"
 #define STATUS_DONT_CONNECT @"DON'T CONNECT"
 
+#define STATUS_SUCCESS 200
+#define STATUS_MALFORMED_REQUEST 400
+#define STATUS_PERMISSION_DENIED 401
+
+
+
 #define DEBUG_PREFIX @"DEBUG OPSCHECK -"
 
-@interface OpsCheck () <NSURLConnectionDataDelegate>
+
+@interface OpsCheck ()
 
 @property (nonatomic, strong) NSString *appKey;
 @property (nonatomic, strong) NSString *appVersion;
 @property (nonatomic, strong) NSString *appBuild;
 
-@property (nonatomic, strong) NSData *data;
-@property (nonatomic, strong) NSHTTPURLResponse *response;
-@property (nonatomic, strong) NSError *error;
 
-@property NSInteger versionStatus;
 
 @end
 
@@ -59,83 +62,71 @@
 
 #pragma mark - Synchronous version check
 
-- (BOOL)checkSyncVersion {
-        
+- (void)checkSyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler {
+    
     NSHTTPURLResponse *response = nil;
     NSError *error = nil;
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self requestURL]]
                                              cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                          timeoutInterval:10];
     
-    self.data = [self performSyncValidationWithRequest:request response:&response error:&error];
-    self.response = response;
-    self.error = error;
+    NSData *data = [self performSyncValidationWithRequest:request response:&response error:&error];
     
+    [self handleServerResponseWithResponse:response data:data error:error completionHandler:handler];
     
-    
-    return [self handleServerResponse];
 }
 
 
-- (void)checkAsyncVersion {
+- (void)checkAsyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self requestURL]]
                                              cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                          timeoutInterval:10];
-    NSURLConnection *connection = [self urlConnectionForURLRequest:request];
-    [connection start];
-    
+    [NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [self handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:data error:error completionHandler:handler];
+    }];
 }
 
 /**
  * Response Handler
  */
 
-- (BOOL)handleServerResponse {
+- (void)handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *)error completionHandler:(OpsCheckCompletionHanlder)handler {
     NSString *versionCheck = nil;
-    
-    if (!self.error) {
+    BOOL connect = NO;
+    NSString *body = nil;
+    if (!error) {
         // Check Response Code
-//        NSString *body = [[NSString alloc] initWithData:self.data encoding:NSASCIIStringEncoding];
-        switch (self.response.statusCode) {
-            case 400:
-//                NSLog(@"DEBUG OPSCHECK - Request is not well formed");
-                // read version-check header to get more details
-                self.versionStatus = 400;
+        body = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+        switch (response.statusCode) {
+            case STATUS_MALFORMED_REQUEST:
                 break;
-            case 401:
-//                NSLog(@"DEBUG OPSCHECK - Permission Denied");
-                // read version-check header to get more details
-                self.versionStatus = 401;
+            case STATUS_PERMISSION_DENIED:
                 break;
-            case 200:
-                versionCheck = [[self.response allHeaderFields] objectForKey:OPSCHECK_HEADER];
-                self.versionStatus = 200;
+            case STATUS_SUCCESS:
+                versionCheck = [[response allHeaderFields] objectForKey:OPSCHECK_HEADER];
+                
                 // check version-check header
                 if (![versionCheck isEqualToString:STATUS_CONNECT]) {
-//                    NSLog(@"DEBUG OPSCHECK - Response body: %@", body);
+                    
                 } else {
-//                    NSLog(@"DEBUG OPSCHECK - GOOD TO GO! NICE JOB");
-//                    NSLog(@"DEBUG OPSCHECK - Response body: %@", body);
-                    return YES;
+                    connect = YES;
                 }
                 break;
             default:
                 break;
         }
     } else {
-        NSLog(@"DEBUG OPSCHECK - Response error: %@", self.error);
+        NSLog(@"DEBUG OPSCHECK - Response error: %@", error);
     }
     
-    return NO;
+    if (handler) {
+        handler(connect, response.statusCode, body, error);
+    } else if (!connect) {
+        [self showMessage:body];
+    }
+    
 }
 
-
-
-- (void)clear {
-    self.response = nil;
-    self.data = nil;
-    self.error = nil;
-}
 
 
 #pragma mark - communication methods
@@ -159,7 +150,6 @@
                             OPSCHECK_SERVER,
                             [customPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
-//    NSLog(@"DEBUG OPSCHECK - URL Request: %@", requestUrl);
     return requestUrl;
 }
 
@@ -174,31 +164,6 @@
 }
 
 
-#pragma mark - NSURLConnection delegates (Async Call only)
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-//    NSLog(@"%@ Data received: %@", DEBUG_PREFIX, data);
-    self.data = data;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-//    NSLog(@"%@ Reponse received: %@", DEBUG_PREFIX, response);
-    self.response = (NSHTTPURLResponse *)response;
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-//    NSLog(@"%@ Connection failed! Error - %@ %@",
-//          DEBUG_PREFIX,
-//          [error localizedDescription],
-//          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
-    self.error = error;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    
-    
-    [self handleServerResponse];
-}
 
 #pragma mark - print info
 
@@ -208,14 +173,14 @@
 
 
 
-//- (void)showMessage:(NSString *)body {
-//    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Hello World!"
-//                                                      message:body
-//                                                     delegate:nil
-//                                            cancelButtonTitle:@"OK"
-//                                            otherButtonTitles:nil];
-//    [message show];
-//}
+- (void)showMessage:(NSString *)body {
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not Able to connect"
+                                                      message:body
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+    [message show];
+}
 
 
 

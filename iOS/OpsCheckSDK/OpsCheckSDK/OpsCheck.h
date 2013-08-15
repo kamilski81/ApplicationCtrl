@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^OpsCheckCompletionHanlder)(BOOL connect, NSInteger status, NSString *message, NSError *error);
+
+
+
 @interface OpsCheck : NSObject
 
 /**
@@ -19,8 +23,12 @@
 /**
  * Send a sync request to the server
  */
-- (BOOL)checkSyncVersion;
+- (void)checkSyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler;
 
+/**
+ * Send an async request to the server
+ */
+- (void)checkAsyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler;
 
 /**
  * Print OpsCHeck instance information
