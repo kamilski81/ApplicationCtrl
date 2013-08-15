@@ -8,6 +8,7 @@ The tool has two components:
 
 
 * Server
+We are using rvm with ruby 2.0.0 and Rails 4
 - Bundle Install
 - Edit database.yml to match your MySql configuration
 - rake db:create
