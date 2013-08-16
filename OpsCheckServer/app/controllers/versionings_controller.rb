@@ -65,7 +65,7 @@ class VersioningsController < ApplicationController
     status = :bad_request
 
     @application = App.none
-    @body = 'Please review the query parameters. Mandatory params: app_key, version, build'
+    @body = 'Please review the query parameters. Mandatory params: app_key, version, build. Optional: format'
 
     if (not app_key.nil?) && (not version.nil?) && (not build.nil?)
       @application = App.where(key: app_key).first
@@ -98,7 +98,13 @@ class VersioningsController < ApplicationController
       end
     end
 
-    render layout: 'versioning', status: status  # URL is not well formed
+    if response_format == :html
+      render layout: 'versioning', status: status  # URL is not well formed
+    else
+      render text: @body
+    end
+    
+
   end
 
 
