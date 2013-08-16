@@ -59,17 +59,21 @@ class VersioningsController < ApplicationController
     app_key = params[:app_key]
     version = params[:version]
     build = params[:build]
+    response_format = params[:format] || :html
 
-    if app_key.nil? || version.nil? || build.nil?
-      response.headers[version_check_header] = ''
-      render layout: false, status: :bad_request  # URL is not well formed
-    else
+    response.header[version_check_header] = ''
+    status = :bad_request
+
+    @application = App.none
+    @body = 'Please review the query parameters. Mandatory params: app_key, version, build'
+
+    if (not app_key.nil?) && (not version.nil?) && (not build.nil?)
       @application = App.where(key: app_key).first
+
       if @application.nil?
         @application = App.none
-        @body = "No @application found with the following app key #{app_key}"
-        response.headers[version_check_header] = ''
-        render layout: 'versioning', status: :unauthorized    # no app key found
+        @body = "No application found with the following app key #{app_key}"
+        status = :unauthorized    # no app key found
       else
         versioning = Versioning.where(app_id: @application.id).first
         if versioning.nil?
@@ -91,10 +95,10 @@ class VersioningsController < ApplicationController
         end
 
         response.headers[version_check_header] = header
-        render layout: 'versioning'
       end
-
     end
+
+    render layout: 'versioning', status: status  # URL is not well formed
   end
 
 
