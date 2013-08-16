@@ -3,12 +3,6 @@ require 'spec_helper'
 describe User do
 
   before(:each) do
-    #@attr = {
-    #    :email => 'user@example.com',
-    #    :password => 'changeme',
-    #    #:password_confirmation => 'changeme'
-    #}
-    #@user = FactoryGirl.create(:user)
     @attr = FactoryGirl.attributes_for(:user)
   end
 

@@ -64,17 +64,18 @@ class VersioningsController < ApplicationController
       response.headers[version_check_header] = ''
       render layout: false, status: :bad_request  # URL is not well formed
     else
-      application = App.where(key: app_key).first
-      if application.nil?
-        @body = "No application found with the following app key #{app_key}"
+      @application = App.where(key: app_key).first
+      if @application.nil?
+        @application = App.none
+        @body = "No @application found with the following app key #{app_key}"
         response.headers[version_check_header] = ''
-        render layout: false, status: :unauthorized    # no app key found
+        render layout: 'versioning', status: :unauthorized    # no app key found
       else
-        versioning = Versioning.where(app_id: application.id).first
+        versioning = Versioning.where(app_id: @application.id).first
         if versioning.nil?
           versioning = Versioning.create(versioning_params)
           versioning.status = 1
-          versioning.app = application
+          versioning.app = @application
 
           if versioning.save == false
             header = "DON'T CONNECT"
@@ -90,7 +91,7 @@ class VersioningsController < ApplicationController
         end
 
         response.headers[version_check_header] = header
-        render layout: false
+        render layout: 'versioning'
       end
 
     end

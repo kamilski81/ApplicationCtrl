@@ -5,7 +5,6 @@ class CreateVersionings < ActiveRecord::Migration
       t.string :build, null: false
       t.integer :status, null: false
       t.references :app, index: true, null: false
-
       t.timestamps
     end
   end
