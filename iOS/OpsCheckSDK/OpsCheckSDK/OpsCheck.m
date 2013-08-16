@@ -74,7 +74,6 @@
 
 - (void)checkAsyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler {
     [NSURLConnection sendAsynchronousRequest:[self request] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-         NSAssert([response isKindOfClass:[NSHTTPURLResponse class]], @"We received a non HTTP Response from the server.");
         [self handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:data error:error completionHandler:handler];
     }];
 }
@@ -112,10 +111,16 @@
         NSLog(@"DEBUG OPSCHECK - Response error: %@", error);
     }
     
+    
+    NSString *message = body;
+    
     if (handler) {
         handler(connect, response.statusCode, body, error);
     } else if (!connect) {
-        [self showMessage:body];
+        
+        message = [error localizedDescription];
+        
+        [self showMessage:message];
     }
     
 }
