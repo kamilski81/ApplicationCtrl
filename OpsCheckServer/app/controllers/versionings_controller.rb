@@ -65,14 +65,14 @@ class VersioningsController < ApplicationController
     status = :bad_request
 
     @application = App.none
-    @body = 'Please review the query parameters. Mandatory params: app_key, version, build. Optional: format'
+    @description = 'Please review the query parameters. Mandatory params: app_key, version, build. Optional: format'
 
     if (not app_key.nil?) && (not version.nil?) && (not build.nil?)
       @application = App.where(key: app_key).first
 
       if @application.nil?
         @application = App.none
-        @body = "No application found with the following app key #{app_key}"
+        @description = "No application found with the following app key #{app_key}"
         status = :unauthorized    # no app key found
       else
         versioning = Versioning.where(app_id: @application.id).first
@@ -83,12 +83,12 @@ class VersioningsController < ApplicationController
 
           if versioning.save == false
             header = "DON'T CONNECT"
-            @body = 'Not able to save the current version information into the db!'
+            @description = 'Not able to save the current version information into the db!'
           end
 
         else
           if versioning.status == 0
-            @body = 'Your current application version is outdated. Please update it!'
+            @description = 'Your current application version is outdated. Please update it!'
             header = "DON'T CONNECT"
           end
 
@@ -101,7 +101,7 @@ class VersioningsController < ApplicationController
     if response_format == :html
       render layout: 'versioning', status: status  # URL is not well formed
     else
-      render text: @body
+      render text: @description
     end
     
 
