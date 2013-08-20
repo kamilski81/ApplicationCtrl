@@ -1,6 +1,7 @@
 package com.slalomdigital.opscheck;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,7 +12,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,8 +27,12 @@ import java.io.InputStream;
 public class CheckTask extends AsyncTask<Void, Void, Boolean> {
     private CheckListener checkListener;
     private Context context;
-    private HttpResponse response;
+    private String body = null;
+    private String type = null;
+    private String encoding = null;
     private boolean showPopup;
+    private String url;
+    private HttpResponse response;
 
     public CheckTask(CheckListener checkListener, boolean showPopup, Context context) {
         this.checkListener = checkListener;
@@ -40,7 +48,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
         // Get the key from the preferences
 
         //TODO: properly create the url
-        String url = "http://m.yahoo.com/";
+        url = "http://m.yahoo.com/";
 
         HttpClient httpclient = new DefaultHttpClient();
 
@@ -57,8 +65,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
                 if (serverStatusHeader != null && !serverStatusHeader.getValue().trim().equalsIgnoreCase("connect")) {
                     // Don't Connect...
                     returnValue = false;
-                }
-                else {
+                } else {
                     returnValue = true;
                 }
             } else {
@@ -69,15 +76,28 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
             }
 
             // Get hold of the response entity
-            HttpEntity entity = response.getEntity();
             // If the response does not enclose an entity, there is no need
             // to worry about connection release
+            HttpEntity entity = response.getEntity();
 
-            if (entity != null) {
+            // Get the type
+            type = entity.getContentType().getValue();
 
-                // A Simple JSON Response Read
+            // Get the encoding
+            try {
+                encoding = entity.getContentEncoding().getValue();
+            } catch (Exception e) {
+                Log.i("OpsCheck", "Exception getting encoding header: " + e.getLocalizedMessage());
+            }
+
+            try {
+                // A Simple HTML Response Read
                 InputStream instream = entity.getContent();
+                body = convertStreamToString(instream);
+                // now you have the string representation of the HTML request
                 instream.close();
+            } catch (Exception e) {
+                Log.e("OpsCheck", "Exception reading response body: " + e.getLocalizedMessage());
             }
         } catch (Exception e) {
             Log.e("OpsCheck", "Exception during check: " + e.getLocalizedMessage());
@@ -97,12 +117,47 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean result) {
-        //TODO: Show a dialog if needed
+        // Show an alert if needed...
+        if (showPopup && result && url != null && body != null) {
+            Intent intent = new Intent(context, OpsCheckDialogActivity.class);
+            intent.putExtra(OpsCheckDialogActivity.EXTRA_BODY, body);
+            if (type != null) intent.putExtra(OpsCheckDialogActivity.EXTRA_TYPE, type);
+            if (encoding != null) intent.putExtra(OpsCheckDialogActivity.EXTRA_ENCODING, encoding);
+            intent.putExtra(OpsCheckDialogActivity.EXTRA_URL, url);
+            context.startActivity(intent);
+        }
 
+        // Call the callback if one was set...
         if (checkListener != null) {
             //Call the listener
             checkListener.onCheck(result, response);
         }
     }
 
+    private static String convertStreamToString(InputStream is) {
+    /*
+     * To convert the InputStream to String we use the BufferedReader.readLine()
+     * method. We iterate until the BufferedReader return null which means
+     * there's no more data to read. Each line will appended to a StringBuilder
+     * and returned as String.
+     */
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
 }
