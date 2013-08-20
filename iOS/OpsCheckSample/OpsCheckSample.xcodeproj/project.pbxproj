@@ -24,7 +24,7 @@
 		EF296BBA17BBFB7B00208786 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF296B9217BBFB7B00208786 /* Foundation.framework */; };
 		EF296BC217BBFB7B00208786 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF296BC017BBFB7B00208786 /* InfoPlist.strings */; };
 		EF296BC517BBFB7B00208786 /* OpsCheckSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF296BC417BBFB7B00208786 /* OpsCheckSampleTests.m */; };
-		EFF333F117BD5CA100765050 /* OpsCheckSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF333F017BD5CA100765050 /* OpsCheckSDK.framework */; };
+		EF7F1ADB17C3EAB0003DE050 /* OpsCheckSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF7F1ADA17C3EAB0003DE050 /* OpsCheckSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +61,7 @@
 		EF296BC117BBFB7B00208786 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EF296BC317BBFB7B00208786 /* OpsCheckSampleTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpsCheckSampleTests.h; sourceTree = "<group>"; };
 		EF296BC417BBFB7B00208786 /* OpsCheckSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpsCheckSampleTests.m; sourceTree = "<group>"; };
-		EFF333F017BD5CA100765050 /* OpsCheckSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpsCheckSDK.framework; sourceTree = "<group>"; };
+		EF7F1ADA17C3EAB0003DE050 /* OpsCheckSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpsCheckSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +72,7 @@
 				EF296B9117BBFB7B00208786 /* UIKit.framework in Frameworks */,
 				EF296B9317BBFB7B00208786 /* Foundation.framework in Frameworks */,
 				EF296B9517BBFB7B00208786 /* CoreGraphics.framework in Frameworks */,
-				EFF333F117BD5CA100765050 /* OpsCheckSDK.framework in Frameworks */,
+				EF7F1ADB17C3EAB0003DE050 /* OpsCheckSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +111,7 @@
 		EF296B8F17BBFB7B00208786 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EFF333F017BD5CA100765050 /* OpsCheckSDK.framework */,
+				EF7F1ADA17C3EAB0003DE050 /* OpsCheckSDK.framework */,
 				EF296B9017BBFB7B00208786 /* UIKit.framework */,
 				EF296B9217BBFB7B00208786 /* Foundation.framework */,
 				EF296B9417BBFB7B00208786 /* CoreGraphics.framework */,

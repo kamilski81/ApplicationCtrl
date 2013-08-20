@@ -9,7 +9,7 @@
 #import "OCSViewController.h"
 #import <OpsCheckSDK/OpsCheck.h>
 
-@interface OCSViewController ()
+@interface OCSViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *opsCheckWebVuew;
 
 @end
@@ -22,30 +22,17 @@
    
     OpsCheck *opsCheck = [OpsCheck opsCheckWithAppKey:@"d44992361e2014c8404f920f36928dada60a27c4"];
     
-    //    [opsCheck checkSyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
-    //        NSLog(@"Sync");
-    //        NSLog(@"OpsCheck info: %@", [opsCheck info]);
-    //        NSLog(@"Status: %d - Message: %@", status, message);
-    //        NSLog(@"Connect: %d", connect);
-    //    }];
-    //
-    //    [opsCheck checkAsyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
-    //        NSLog(@"Sync");
-    //        NSLog(@"Error: %@", error);
-    //        NSLog(@"OpsCheck info: %@", [opsCheck info]);
-    //        NSLog(@"Status: %d - Message: %@", status, message);
-    //        NSLog(@"Connect: %d", connect);
-    //    }];
-    
-    //    [opsCheck checkSyncVersionWithCompletionHandler:nil];
-    
     [self.opsCheckWebVuew setScalesPageToFit:YES];
+    [self.opsCheckWebVuew setDelegate:self];
+    
     
     [opsCheck checkAsyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
-            [self.opsCheckWebVuew loadHTMLString:message baseURL:nil];
-     }];
-
-    
+        NSString *webViewcontent = message;
+        if (error) {
+            webViewcontent = [error localizedDescription];
+        }
+        [self.opsCheckWebVuew loadHTMLString:message baseURL:[NSURL URLWithString:@"http://localhost:3000/versionings/check"]];
+    }];
     
 }
 
@@ -53,6 +40,20 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - UIWebView delegate
+
+// implement this method in the owning class
+-(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType
+{
+    if (inType == UIWebViewNavigationTypeLinkClicked) {
+        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end
