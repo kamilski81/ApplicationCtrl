@@ -16,12 +16,15 @@ module OpsCheckServer
     config.active_record.default_timezone = :utc
 
   config.generators do |generate|
+    generate.test_framework :rspec, fixtures: true
+    generate.fixture_replacement :factory_girl, dir: 'spec/factories'
     generate.helper false
     generate.javascript_engine false
+    generate.javascripts false
     generate.request_specs false
     generate.routing_specs false
     generate.stylesheets false
-    generate.test_framework :rspec
+    generate.helper_specs false
     generate.view_specs false
   end
 
