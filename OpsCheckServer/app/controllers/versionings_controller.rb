@@ -56,30 +56,32 @@ class VersioningsController < ApplicationController
 
     header = 'CONNECT'
     version_check_header =  'Version-Check'
+    version_check_force_header = 'Version-Check-Force'
     app_key = params[:app_key]
     version = params[:version]
     build = params[:build]
     response_format = params[:format] || :html
 
     response.header[version_check_header] = ''
-    status = :bad_request
+    response.header[version_check_force_header] = false
+
+    status = :ok
+    @description = ''
 
     @application = App.none
-    @description = 'Please review the query parameters. Mandatory params: app_key, version, build. Optional: format'
+
 
     if (not app_key.nil?) && (not version.nil?) && (not build.nil?)
       @application = App.where(key: app_key).first
 
-      if @application.nil?
-        @application = App.none
-        @description = "No application found with the following app key #{app_key}"
-        status = :unauthorized    # no app key found
-      else
+      if @application
         versioning = Versioning.where(app_id: @application.id).first
         if versioning.nil?
+          versioning_params = check_versioning_params.except(:app_key)
+          versioning_params.merge!({
+                                      :app_id => @application.id
+                                  })
           versioning = Versioning.create(versioning_params)
-          versioning.status = 1
-          versioning.app = @application
 
           if versioning.save == false
             header = "DON'T CONNECT"
@@ -87,7 +89,7 @@ class VersioningsController < ApplicationController
           end
 
         else
-          if versioning.status == 0
+          if versioning.warning
             @description = 'Your current application version is outdated. Please update it!'
             header = "DON'T CONNECT"
           end
@@ -95,7 +97,15 @@ class VersioningsController < ApplicationController
         end
 
         response.headers[version_check_header] = header
+        response.headers[version_check_force_header] = versioning.force_update
+      else
+        @application = App.none
+        @description = "No application found with the following app key #{app_key}"
+        status = :unauthorized    # no app key found
       end
+    else
+      status = :bad_request
+      @description = 'Please review the query parameters. Mandatory params: app_key, version, build. Optional: format'
     end
 
     if response_format == :html
@@ -116,6 +126,11 @@ class VersioningsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def versioning_params
-      params.require(:versioning).permit(:version, :build, :status, :app_id)
+      params.require(:versioning).permit(:version, :build, :warning, :force_update, :app_id)
     end
+
+    # API CALL for check params
+  def check_versioning_params
+    params.permit(:version, :build, :format, :app_key)
+  end
 end

@@ -21,8 +21,13 @@
 </p>
 
 <p>
+  <strong>URL:</strong>
+  <%= @app.url %>
+</p>
+
+<p>
   <strong>User:</strong>
-  <%= @app.user %>
+  <%= @app.user.email %>
 </p>
 
 <%= link_to 'Edit', edit_app_path(@app) %> |

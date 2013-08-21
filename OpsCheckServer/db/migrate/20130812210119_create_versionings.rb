@@ -3,8 +3,11 @@ class CreateVersionings < ActiveRecord::Migration
     create_table :versionings do |t|
       t.string :version, null: false
       t.string :build, null: false
-      t.integer :status, null: false
+      t.boolean :warning, null: false, default: false
+      t.boolean :force_update, null: false, default: false
+      t.string :content
       t.references :app, index: true, null: false
+
       t.timestamps
     end
   end

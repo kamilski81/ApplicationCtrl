@@ -6,18 +6,23 @@
 </p>
 
 <p>
-  <strong>Text:</strong>
+  <strong>Build:</strong>
   <%= @versioning.build %>
 </p>
 
 <p>
-  <strong>Status:</strong>
-  <%= @versioning.status %>
+  <strong>Warning:</strong>
+  <%= @versioning.warning %>
+</p>
+
+<p>
+  <strong>Force Update:</strong>
+  <%= @versioning.force_update %>
 </p>
 
 <p>
   <strong>App:</strong>
-  <%= @versioning.app %>
+  <%= @versioning.app.name %>
 </p>
 
 <%= link_to 'Edit', edit_versioning_path(@versioning) %> |

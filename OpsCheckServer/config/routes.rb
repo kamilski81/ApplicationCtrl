@@ -6,8 +6,6 @@ OpsCheckServer::Application.routes.draw do
 
   resources :apps
 
-  resources :app_types
-
   devise_for :users
 
   root :to => "home#index"

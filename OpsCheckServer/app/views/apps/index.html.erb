@@ -21,7 +21,7 @@
         <td><%= app.identifier %></td>
         <td><%= app.key %></td>
         <td><%= app.app_type %></td>
-        <td><%= app.user %></td>
+        <td><%= app.user.email %></td>
         <td><%= link_to 'Show', app %></td>
         <td><%= link_to 'Edit', edit_app_path(app) %></td>
         <td><%= link_to 'Destroy', app, method: :delete, data: { confirm: 'Are you sure?' } %></td>

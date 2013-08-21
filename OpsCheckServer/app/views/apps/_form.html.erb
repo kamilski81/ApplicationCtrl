@@ -4,8 +4,9 @@
   <div class="inputs">
     <%= f.input :name %>
     <%= f.input :identifier %>
-    <%= f.association :app_type %>
-    <%= f.association :user %>
+    <%= f.input :app_type, priority: 'iOS', collection: app_type_list() %>
+    <%= f.input :url %>
+    <%= f.association :user, label_method: :email %>
   </div>
 
   <div class="actions">

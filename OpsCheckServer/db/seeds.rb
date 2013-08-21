@@ -6,8 +6,23 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-AppType.create([{name: 'iOS'}, {name: 'Android'}])
 
-iOS_app_type = AppType.first
-user = User.first
-smartAlert_application = App.create({name: 'SmartAlert for iOS', identifier: 'com.slalom.smartAlert', app_type: iOS_app_type, user: user})
+user = User.create(
+    {
+        :email => 'giuseppem@slalom.com',
+        :password => '11031984',
+        :password_confirmation => '11031984'
+    }
+)
+
+user.save
+
+app = App.create(
+    {
+        :name => 'SmartAlert iOS',
+        :identifier => 'com.slalom.SmartAlert',
+        :app_type => 'iOS',
+        :url => 'https://itunes.apple.com/us/app/mlevel/id577848463',
+        :user => user
+    }
+)

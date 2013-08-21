@@ -1,13 +1,23 @@
 <%= simple_form_for(@versioning) do |f| %>
-  <%= f.error_notification %>
+    <%= f.error_notification %>
 
-  <div class="inputs">
-    <%= f.input :version %>
-    <%= f.input :build %>
-    <%= f.association :app %>
-  </div>
+    <div class="inputs">
+      <%= f.input :version %>
+      <%= f.input :build %>
+      <%= f.input :warning %>
+      <%= f.input :force_update %>
+      <%= f.association :app %>
 
-  <div class="actions">
-    <%= f.button :submit %>
-  </div>
+      <div class="editable">
+        <% if @versioning.new_record? %>
+            <%= render 'content', description: @versioning.content if @versioning.new_record? %>
+        <% else %>
+            <%= raw(@versioning.content) %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.button :submit %>
+    </div>
 <% end %>

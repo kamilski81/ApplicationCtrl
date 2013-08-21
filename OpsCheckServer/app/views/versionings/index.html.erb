@@ -4,8 +4,9 @@
   <thead>
     <tr>
       <th>Version</th>
-      <th>Text</th>
-      <th>Status</th>
+      <th>Build</th>
+      <th>Warning</th>
+      <th>Force Update</th>
       <th>App</th>
       <th></th>
       <th></th>
@@ -18,7 +19,8 @@
       <tr>
         <td><%= versioning.version %></td>
         <td><%= versioning.build %></td>
-        <td><%= versioning.status %></td>
+        <td><%= versioning.warning %></td>
+        <td><%= versioning.force_update %></td>
         <td><%= versioning.app.name %></td>
         <td><%= link_to 'Show', versioning %></td>
         <td><%= link_to 'Edit', edit_versioning_path(versioning) %></td>
