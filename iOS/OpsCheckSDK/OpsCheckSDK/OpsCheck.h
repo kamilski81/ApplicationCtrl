@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^OpsCheckCompletionHanlder)(BOOL connect, NSInteger status, NSString *message, NSError *error);
+typedef void (^OpsCheckCompletionHanlder)(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error);
 
 
 

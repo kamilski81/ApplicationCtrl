@@ -7,23 +7,8 @@
 //
 
 #import "OpsCheck.h"
+#import "Constants.h"
 #import <UIKit/UIKit.h>
-
-
-#define OPSCHECK_SERVER @"http://localhost:3000"
-#define OPSCHECK_PATH @"/versionings/check?version=%@&build=%@&app_key=%@"
-
-#define OPSCHECK_HEADER @"Version-Check"
-#define STATUS_CONNECT @"CONNECT"
-#define STATUS_DONT_CONNECT @"DON'T CONNECT"
-
-#define STATUS_SUCCESS 200
-#define STATUS_MALFORMED_REQUEST 400
-#define STATUS_PERMISSION_DENIED 401
-
-
-
-#define DEBUG_PREFIX @"DEBUG OPSCHECK -"
 
 
 @interface OpsCheck () <NSURLConnectionDataDelegate>
@@ -84,6 +69,7 @@
 
 - (void)handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *)error completionHandler:(OpsCheckCompletionHanlder)handler {
     NSString *versionCheck = nil;
+    BOOL forceUpdateCheck = NO;
     BOOL connect = NO;
     NSString *body = nil;
     if (!error) {
@@ -91,18 +77,27 @@
         body = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
         switch (response.statusCode) {
             case STATUS_MALFORMED_REQUEST:
+                connect = NO;
+                forceUpdateCheck = NO;
                 break;
             case STATUS_PERMISSION_DENIED:
+                connect = NO;
+                forceUpdateCheck = NO;
                 break;
-            case STATUS_SUCCESS:
-                versionCheck = [[response allHeaderFields] objectForKey:OPSCHECK_HEADER];
+            case STATUS_SUCCESS: { 
+                versionCheck = [[response allHeaderFields] objectForKey:OPSCHECK_CHECK_HEADER];
                 
                 // check version-check header
                 if (![versionCheck isEqualToString:STATUS_CONNECT]) {
-                    
+                    connect = NO;
+                    // check force update header
+                    NSString *forceUpdateCheckString = [[response allHeaderFields] objectForKey:OPSCHECK_FORCE_UPDATE_HEADER];
+                    forceUpdateCheck = [forceUpdateCheckString boolValue];
                 } else {
                     connect = YES;
+                    forceUpdateCheck = NO;
                 }
+            }
                 break;
             default:
                 break;
@@ -115,10 +110,12 @@
     NSString *message = body;
     
     if (handler) {
-        handler(connect, response.statusCode, body, error);
-    } else if (!connect) {
+        handler(connect, forceUpdateCheck, response.statusCode, body, error);
+    } else {
         
-        message = [error localizedDescription];
+        if (error) {
+            message = [error localizedDescription];
+        }
         
         [self showMessage:message];
     }
@@ -178,7 +175,8 @@
 }
 
 
-
+#pragma mark - Show feedback to user
+// TODO: use a webview by defautl
 - (void)showMessage:(NSString *)body {
     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not Able to connect"
                                                       message:body

@@ -18,6 +18,7 @@
 		EF5004C617BBF7E500DE7788 /* OpsCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5004C417BBF7E500DE7788 /* OpsCheck.m */; };
 		EF5004C917BBF84500DE7788 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5004C817BBF84500DE7788 /* UIKit.framework */; };
 		EF5004CA17BBF8D900DE7788 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5004C817BBF84500DE7788 /* UIKit.framework */; };
+		EFE2E6B917C56841004B4775 /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE2E6B817C56841004B4775 /* Constants.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		EF5004C317BBF7E500DE7788 /* OpsCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpsCheck.h; sourceTree = "<group>"; };
 		EF5004C417BBF7E500DE7788 /* OpsCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpsCheck.m; sourceTree = "<group>"; };
 		EF5004C817BBF84500DE7788 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EFE2E6B817C56841004B4775 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				EF50049717BBF6BD00DE7788 /* Supporting Files */,
+				EFE2E6B817C56841004B4775 /* Constants.h */,
 				EF5004C317BBF7E500DE7788 /* OpsCheck.h */,
 				EF5004C417BBF7E500DE7788 /* OpsCheck.m */,
 			);
@@ -154,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF5004C517BBF7E500DE7788 /* OpsCheck.h in Headers */,
+				EFE2E6B917C56841004B4775 /* Constants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

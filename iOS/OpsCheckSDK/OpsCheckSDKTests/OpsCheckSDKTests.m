@@ -8,6 +8,7 @@
 
 #import "OpsCheckSDKTests.h"
 #import "OpsCheck.h"
+#import "Constants.h"
 
 #define TEST_APP_KEY @"OpsCheck app key"
 #define TEST_APP_VERSION @"appVersion"
@@ -15,15 +16,9 @@
 #define TEST_EXPECTED_URL @"OpsCheck expected URL"
 
 #define TEST_RESPONSE @"response"
-#define TEST_STATUS_SUCCESS 200
-#define TEST_STATUS_MALFORMED_REQUEST 400
-#define TEST_STATUS_PERMISSION_DENIED 401
+
 
 #define TEST_HTTP_VERSION @"HTTP/1.1"
-
-#define TEST_OPSCHECK_HEADER @"Version-Check"
-#define TEST_STATUS_CONNECT @"CONNECT"
-#define TEST_STATUS_DONT_CONNECT @"DON'T CONNECT"
 
 
 /**
@@ -90,16 +85,16 @@
  * This test case is connecting to the server.
  */ 
 - (void)testSyncCommucationSuccessStatusCode {
-    [self.opsCheck checkSyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
-        BOOL check = TEST_STATUS_SUCCESS == status;
-        STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", TEST_STATUS_SUCCESS, status);
+    [self.opsCheck checkSyncVersionWithCompletionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+        BOOL check = STATUS_SUCCESS == status;
+        STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", STATUS_SUCCESS, status);
     }];
 }
 
 - (void)testAsyncCommucationSuccessStatusCode {
-    [self.opsCheck checkAsyncVersionWithCompletionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
-        BOOL check = TEST_STATUS_SUCCESS == status;
-        STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", TEST_STATUS_SUCCESS, status);
+    [self.opsCheck checkAsyncVersionWithCompletionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+        BOOL check = STATUS_SUCCESS == status;
+        STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", STATUS_SUCCESS, status);
     }];
 }
 
@@ -112,59 +107,96 @@
      * Mocking server response
      */
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObject:TEST_STATUS_CONNECT forKey:TEST_OPSCHECK_HEADER];
-    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:TEST_STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+//    NSDictionary *headerFields = [NSDictionary dictionaryWithObject:STATUS_CONNECT forKey:OPSCHECK_CHECK_HEADER];
+    
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
+    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
-        STAssertTrue(TEST_STATUS_SUCCESS == status, @"We expected the handle server version status to be %d, instead is %d", TEST_STATUS_SUCCESS, status);
+        STAssertTrue(STATUS_SUCCESS == status, @"We expected the handle server version status to be %d, instead is %d", STATUS_SUCCESS, status);
         
         
         /**
          * Check connect status
          */
-        STAssertTrue(connect, @"We expected the handle server response to be false, instead is %d", connect);
+        STAssertTrue(connect, @"We expected the connect value to be false, instead is %d", connect);
         
         
+        /**
+         * Check force update status
+         */
+        STAssertFalse(forceUpdate, @"We expected the force update value to be false, instead is %d", connect);
+                
     }];
 
-    
-    
-        
 }
 
-- (void)testDontConnectReponseHandler {
+- (void)testDontConnectNoUpdateReponseHandler {
     
     /**
      * Mocking server response
      */
     
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObject:TEST_STATUS_DONT_CONNECT forKey:TEST_OPSCHECK_HEADER];
-    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:TEST_STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
+    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
-        STAssertTrue(TEST_STATUS_SUCCESS == status, @"We expected the handle server version status to be %d, instead is %d", TEST_STATUS_SUCCESS, status);
+        STAssertTrue(STATUS_SUCCESS == status, @"We expected the handle server version status to be %d, instead is %d", STATUS_SUCCESS, status);
         
         
         /**
          * Check connect status
          */
-        STAssertFalse(connect, @"We expected the handle server response to be false, instead is %d", connect);
+        STAssertFalse(connect, @"We expected the connect value to be false, instead is %d", connect);
         
-        
+        /**
+         * Check force update status
+         */
+        STAssertFalse(forceUpdate, @"We expected the force update value to be false, instead is %d", connect);
     }];
-    
-    
 }
+
+
+- (void)testDontConnectForceUpdateReponseHandler {
+    
+    /**
+     * Mocking server response
+     */
+    
+    NSData *data = [NSData data];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"true", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
+    NSError *error = nil;
+    
+    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+        /**
+         * Check version status == 200
+         */
+        STAssertTrue(STATUS_SUCCESS == status, @"We expected the handle server version status to be %d, instead is %d", STATUS_SUCCESS, status);
+        
+        
+        /**
+         * Check connect status
+         */
+        STAssertFalse(connect, @"We expected the connect value to be false, instead is %d", connect);
+        
+        /**
+         * Check force update status
+         */
+        STAssertTrue(forceUpdate, @"We expected the force update value to be true, instead is %d", connect);
+    }];
+}
+
 
 - (void)testRequestMalformedReponseHandler {
     
@@ -172,57 +204,49 @@
      * Mocking server response
      */
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObject:TEST_STATUS_DONT_CONNECT forKey:TEST_OPSCHECK_HEADER];
-    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:TEST_STATUS_MALFORMED_REQUEST HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_MALFORMED_REQUEST HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
+    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
-        STAssertTrue(TEST_STATUS_MALFORMED_REQUEST == status, @"We expected the handle server version status to be %d, instead is %d", TEST_STATUS_MALFORMED_REQUEST, status);
+        STAssertTrue(STATUS_MALFORMED_REQUEST == status, @"We expected the handle server version status to be %d, instead is %d", STATUS_MALFORMED_REQUEST, status);
         
         
         /**
          * Check connect status
          */
-        STAssertFalse(connect, @"We expected the handle server response to be false, instead is %d", connect);
+        STAssertFalse(connect, @"We expected the connect value to be false, instead is %d", connect);
     }];
-    
-    
-    
     
 }
 
 
 - (void)testPermissionDeniedReponseHandler {
     
-
-    
     /**
      * Mocking server response
      */
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObject:TEST_STATUS_DONT_CONNECT forKey:TEST_OPSCHECK_HEADER];
-    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:TEST_STATUS_PERMISSION_DENIED HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_PERMISSION_DENIED HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, NSInteger status, NSString *message, NSError *error) {
+    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
-        STAssertTrue(TEST_STATUS_PERMISSION_DENIED == status, @"We expected the handle server version status to be %d, instead is %d", TEST_STATUS_PERMISSION_DENIED, status);
+        STAssertTrue(STATUS_PERMISSION_DENIED == status, @"We expected the handle server version status to be %d, instead is %d", STATUS_PERMISSION_DENIED, status);
         
         
         /**
          * Check connect status
          */
-        STAssertFalse(connect, @"We expected the handle server response to be false, instead is %d", connect);
+        STAssertFalse(connect, @"We expected the connect value to be false, instead is %d", connect);
     }];
-    
-    
-       
     
 }
 
