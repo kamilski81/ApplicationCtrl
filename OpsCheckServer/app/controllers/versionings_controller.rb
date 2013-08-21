@@ -78,22 +78,22 @@ class VersioningsController < ApplicationController
       @application = App.where(key: app_key).first
 
       if @application
-        versioning = Versioning.where(app_id: @application.id).first
-        if versioning.nil?
+        @versioning = Versioning.where(app_id: @application.id).first
+        if @versioning.nil?
           versioning_params = check_versioning_params.except(:app_key)
           versioning_params.merge!({
                                       :app_id => @application.id
                                   })
-          versioning = Versioning.create(versioning_params)
+          @versioning = Versioning.create(versioning_params)
 
-          if versioning.save == false
+          if @versioning.save == false
             header = "DON'T CONNECT"
             @description = 'Not able to save the current version information into the db!'
           end
 
         else
 
-          if versioning.warning
+          if @versioning.warning
             @description = 'Your current application version is outdated. Please update it!'
             header = "DON'T CONNECT"
           end
@@ -101,7 +101,7 @@ class VersioningsController < ApplicationController
         end
 
         response.headers[version_check_header] = header
-        response.headers[version_check_force_header] = versioning.force_update.to_s
+        response.headers[version_check_force_header] = @versioning.force_update.to_s
       else
         @application = App.none
         @description = "No application found with the following app key #{app_key}"

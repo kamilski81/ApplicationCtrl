@@ -1,2 +1,3 @@
 $(document).ready ->
-  $('textarea#content').ckeditor()
+  if $('#content').length > 0
+    CKEDITOR.replace('content')
