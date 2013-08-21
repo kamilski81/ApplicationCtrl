@@ -1,28 +1,26 @@
-<%= simple_form_for(@versioning) do |f| %>
-    <%= f.error_notification %>
+<div class="row">
+  <%= simple_form_for(@versioning) do |f| %>
+      <%= f.error_notification %>
 
-    <div class="inputs">
-      <%= f.input :version %>
-      <%= f.input :build %>
-      <%= f.input :warning %>
-      <%= f.input :force_update %>
-      <%= f.association :app %>
+      <div class="inputs">
+        <%= f.input :version %>
+        <%= f.input :build %>
+        <%= f.input :warning %>
+        <%= f.input :force_update %>
+        <%= f.association :app %>
 
-      <h3>Please edit the following content to give users a custom experience.</h3>
+        <h3>Please edit the following content to give users a custom experience.</h3>
 
-      <p>
-        <%= f.input :content, :as => :text, input_html: {id: 'content'} %>
-      </p>
+        <p>
+          <%= f.input :content, :as => :text, input_html: {id: 'content'} %>
+        </p>
 
-    </div>
+      </div>
 
-    <div class="actions">
-      <%= f.button :submit %>
-    </div>
+      <div class="actions">
+        <%= f.button :submit %>
+      </div>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('textarea#content').ckeditor();
-        })
-    </script>
-<% end %>
+  <% end %>
+</div>
+
