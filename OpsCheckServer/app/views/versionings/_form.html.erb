@@ -11,14 +11,14 @@
       <%= f.input :content, :as => :hidden,  input_html: { id: 'content' } %>
 
 
-      <h3>The highlighted part will be displayed on your mobile device. You can customize it using the editor.</h3>
-      <h4>We are using Twitter Bootstrap to support your style.</h4>
+      <h3>Please edit the following content to give users a custom experience.</h3>
 
       <div id="" class="editable">
-        <% if @versioning.new_record? %>
-            <%= render 'content', description: @versioning.content if @versioning.new_record? %>
-        <% else %>
+
+        <% if (not @versioning.new_record?) && (not @versioning.content.blank?) %>
             <%= raw(@versioning.content) %>
+        <% else %>
+            <%= render 'content', description: @versioning.content %>
         <% end %>
       </div>
     </div>
@@ -27,20 +27,3 @@
       <%= f.button :submit %>
     </div>
 <% end %>
-
-<!-- make all elements with class="editable" editable with Aloha Editor -->
-<script type="text/javascript">
-
-    // save all changes after leaving an editable
-    Aloha.bind('aloha-editable-deactivated', function(){
-        var content = Aloha.activeEditable.getContents();
-
-        $('#content').val(content);
-    });
-
-    Aloha.ready( function() {
-        var $ = Aloha.jQuery;
-        $('.editable').aloha();
-    });
-
-</script>

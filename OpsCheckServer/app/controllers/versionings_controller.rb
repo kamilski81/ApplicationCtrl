@@ -1,3 +1,5 @@
+
+
 class VersioningsController < ApplicationController
   before_action :authenticate_user!, except: [:check]
   before_action :set_versioning, only: [:show, :edit, :update, :destroy]
@@ -65,7 +67,7 @@ class VersioningsController < ApplicationController
     response.header[version_check_force_header] = false
 
     status = :ok
-    @description = ''
+    @description = 'Good to Go!'
 
     @application = App.none
 
@@ -129,7 +131,20 @@ class VersioningsController < ApplicationController
     end
 
     # API CALL for check params
-  def check_versioning_params
-    params.permit(:version, :build, :format, :app_key)
-  end
+    def check_versioning_params
+      params.permit(:version, :build, :format, :app_key)
+    end
+
+    # Remove javascript from versioning content field
+    def remove_javascript(html)
+
+      doc = Nokogiri.HTML(html)
+
+      doc.css('script').remove                             # Remove <script>…</script>
+      puts doc                                             # Source w/o script blocks
+
+      doc.xpath("//@*[starts-with(name(),'on')]").remove   # Remove on____ attributes
+      puts doc                                             # Source w/o any JavaScript
+
+    end
 end

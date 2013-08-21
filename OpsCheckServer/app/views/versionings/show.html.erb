@@ -25,5 +25,11 @@
   <%= @versioning.app.name %>
 </p>
 
+<p>
+  <strong>Content:</strong>
+  <%= raw(@versioning.content) %>
+</p>
+
+
 <%= link_to 'Edit', edit_versioning_path(@versioning) %> |
 <%= link_to 'Back', versionings_path %>
