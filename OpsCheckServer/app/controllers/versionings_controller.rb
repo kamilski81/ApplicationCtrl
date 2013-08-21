@@ -66,7 +66,7 @@ class VersioningsController < ApplicationController
     response_format = params[:format] || :html
 
     response.header[version_check_header] = ''
-    response.header[version_check_force_header] = false
+    response.header[version_check_force_header] = ''
 
     status = :ok
     @description = 'Good to Go!'
@@ -101,7 +101,7 @@ class VersioningsController < ApplicationController
         end
 
         response.headers[version_check_header] = header
-        response.headers[version_check_force_header] = versioning.force_update
+        response.headers[version_check_force_header] = versioning.force_update.to_s
       else
         @application = App.none
         @description = "No application found with the following app key #{app_key}"
