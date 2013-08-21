@@ -6,6 +6,9 @@
   <title><%= page_title %></title>
   <%= stylesheet_link_tag :application, :media => 'all' %>
   <%= csrf_meta_tags %>
+  <%= render 'javascript' %>
+  <script src="/ckeditor/ckeditor.js"></script>
+  <script src="/ckeditor/adapters/jquery.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="<%= body_class %>">
@@ -23,7 +26,5 @@
     <% end %>
   </footer>
 </section>
-
-<%= render 'javascript' %>
 </body>
 </html>

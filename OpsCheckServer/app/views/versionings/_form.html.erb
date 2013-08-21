@@ -8,22 +8,21 @@
       <%= f.input :force_update %>
       <%= f.association :app %>
 
-      <%= f.input :content, :as => :hidden,  input_html: { id: 'content' } %>
-
-
       <h3>Please edit the following content to give users a custom experience.</h3>
 
-      <div id="" class="editable">
+      <p>
+        <%= f.input :content, :as => :text, input_html: {id: 'content'} %>
+      </p>
 
-        <% if (not @versioning.new_record?) && (not @versioning.content.blank?) %>
-            <%= raw(@versioning.content) %>
-        <% else %>
-            <%= render 'content', description: @versioning.content %>
-        <% end %>
-      </div>
     </div>
 
     <div class="actions">
       <%= f.button :submit %>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('textarea#content').ckeditor();
+        })
+    </script>
 <% end %>
