@@ -53,7 +53,6 @@ class VersioningsController < ApplicationController
 
   # GET /versionings/check
   def check
-
     header = 'CONNECT'
     version_check_header =  'Version-Check'
     version_check_force_header = 'Version-Check-Force'
@@ -89,6 +88,7 @@ class VersioningsController < ApplicationController
           end
 
         else
+
           if versioning.warning
             @description = 'Your current application version is outdated. Please update it!'
             header = "DON'T CONNECT"
@@ -117,7 +117,6 @@ class VersioningsController < ApplicationController
 
   end
 
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_versioning
@@ -126,7 +125,7 @@ class VersioningsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def versioning_params
-      params.require(:versioning).permit(:version, :build, :warning, :force_update, :app_id)
+      params.require(:versioning).permit(:version, :build, :warning, :force_update, :content, :app_id)
     end
 
     # API CALL for check params

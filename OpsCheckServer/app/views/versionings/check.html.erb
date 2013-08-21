@@ -1,16 +1,22 @@
 <div class="jumbotron">
   <%= render 'content', description: @description %>
 
-  <p>
-    <a href="<%= @application.url %>" class="btn btn-lg btn-success">
-      Update Now!
-      <img src="http://fc04.deviantart.net/fs70/f/2011/008/b/9/black_opaque_app_store_icon_by_thearcsage-d36rasw.png" width="40" alt=""/>
-    </a>
-  </p>
 
-  <p>
-    <img src="http://www.census.gov/mobile/img/app_store_icon.png" width="150" alt="App Store"/>
-  </p>
+
+  <% if not @application.empty? %>
+      <p>
+        <a href="<%= @application.url %>" class="btn btn-lg btn-success">
+          Update Now!
+          <img src="http://fc04.deviantart.net/fs70/f/2011/008/b/9/black_opaque_app_store_icon_by_thearcsage-d36rasw.png" width="40" alt=""/>
+        </a>
+      </p>
+
+      <p>
+        <img src="http://www.census.gov/mobile/img/app_store_icon.png" width="150" alt="App Store"/>
+      </p>
+  <% end %>
+
+
 
 </div>
 

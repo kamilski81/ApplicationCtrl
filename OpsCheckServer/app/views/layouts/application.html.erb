@@ -6,6 +6,23 @@
     <title><%= page_title %></title>
     <%= stylesheet_link_tag :application, :media => 'all' %>
     <%= csrf_meta_tags %>
+  <!-- load the jQuery and require.js libraries -->
+  <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>
+  <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/vendor/jquery-1.7.2.js"></script>
+
+  <!-- load the Aloha Editor core and some plugins -->
+  <script src="http://cdn.aloha-editor.org/latest/lib/aloha.js"
+          data-aloha-plugins="common/ui,
+                                common/format,
+                                common/list,
+                                common/link,
+                                common/highlighteditables">
+  </script>
+
+  <!-- load the Aloha Editor CSS styles -->
+  <link href="http://cdn.aloha-editor.org/latest/css/aloha.css" rel="stylesheet" type="text/css" />
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="<%= body_class %>">

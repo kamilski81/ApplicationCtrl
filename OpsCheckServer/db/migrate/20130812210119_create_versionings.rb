@@ -5,7 +5,7 @@ class CreateVersionings < ActiveRecord::Migration
       t.string :build, null: false
       t.boolean :warning, null: false, default: false
       t.boolean :force_update, null: false, default: false
-      t.string :content
+      t.text :content, :limit => 4294967295
       t.references :app, index: true, null: false
 
       t.timestamps

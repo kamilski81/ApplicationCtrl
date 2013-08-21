@@ -1,8 +1,8 @@
 OpsCheckServer::Application.routes.draw do
 
   match 'versionings/check', to: 'versionings#check', via: :get
-
   resources :versionings
+
 
   resources :apps
 

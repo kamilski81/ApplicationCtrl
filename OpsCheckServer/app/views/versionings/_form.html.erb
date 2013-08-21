@@ -8,7 +8,9 @@
       <%= f.input :force_update %>
       <%= f.association :app %>
 
-      <div class="editable">
+      <%= f.input :content, :as => :hidden,  input_html: { id: 'content' } %>
+
+      <div id="" class="editable">
         <% if @versioning.new_record? %>
             <%= render 'content', description: @versioning.content if @versioning.new_record? %>
         <% else %>
@@ -21,3 +23,20 @@
       <%= f.button :submit %>
     </div>
 <% end %>
+
+<!-- make all elements with class="editable" editable with Aloha Editor -->
+<script type="text/javascript">
+
+    // save all changes after leaving an editable
+    Aloha.bind('aloha-editable-deactivated', function(){
+        var content = Aloha.activeEditable.getContents();
+
+        $('#content').val(content);
+    });
+
+    Aloha.ready( function() {
+        var $ = Aloha.jQuery;
+        $('.editable').aloha();
+    });
+
+</script>
