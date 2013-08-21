@@ -10,6 +10,10 @@
 
       <%= f.input :content, :as => :hidden,  input_html: { id: 'content' } %>
 
+
+      <h3>The highlighted part will be displayed on your mobile device. You can customize it using the editor.</h3>
+      <h4>We are using Twitter Bootstrap to support your style.</h4>
+
       <div id="" class="editable">
         <% if @versioning.new_record? %>
             <%= render 'content', description: @versioning.content if @versioning.new_record? %>
