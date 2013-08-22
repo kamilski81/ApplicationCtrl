@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <% if not @application.blank? %>
 
-      <% if not @versioning.content.empty? %>
+      <% if not @versioning.content.blank? %>
           <%= raw(@versioning.content) %>
       <% else %>
           <%= render 'content', description: @description %>
