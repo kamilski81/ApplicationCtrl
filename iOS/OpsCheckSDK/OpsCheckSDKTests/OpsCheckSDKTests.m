@@ -10,11 +10,13 @@
 #import "OpsCheck.h"
 #import "Constants.h"
 
-#define TEST_APP_KEY @"OpsCheck app key"
+#define TEST_APP_KEY @"OPSCHECK_APP_KEY"
+#define TEST_EXPECTED_URL @"OPSCHECK_EXPECTED_URL"
+
 #define TEST_APP_VERSION @"appVersion"
 #define TEST_APP_BUILD @"appBuild"
-#define TEST_EXPECTED_URL @"OpsCheck expected URL"
 
+#define TEST_OPSCHECK_SERVER @"opsCheckServer"
 #define TEST_RESPONSE @"response"
 
 
@@ -57,13 +59,14 @@
     NSString *appVersion = [self.testBundle objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
     NSString *appBuild = [self.testBundle objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
     NSString *appKey = [self.testBundle objectForInfoDictionaryKey:TEST_APP_KEY];
-    
+    NSString *opsCheckServer = [self.testBundle objectForInfoDictionaryKey:OPSCHECK_SERVER];
     /**
      * This is an hack to access "private" fields in the ops class so I can test URL creation
      */
     self.opsCheck = [OpsCheck opsCheckWithAppKey:appKey];
     [self.opsCheck setValue:appVersion forKey:TEST_APP_VERSION];
     [self.opsCheck setValue:appBuild forKey:TEST_APP_BUILD];
+    [self.opsCheck setValue:opsCheckServer forKey:TEST_OPSCHECK_SERVER];
 
 }
 
@@ -100,8 +103,6 @@
 
 
 - (void)testConnectReponseHandler {
-    
-
     
     /**
      * Mocking server response

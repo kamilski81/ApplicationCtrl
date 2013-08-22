@@ -9,7 +9,7 @@
 #ifndef OpsCheckSDK_Constants_h
 #define OpsCheckSDK_Constants_h
 
-#define OPSCHECK_SERVER @"http://localhost:3000"
+#define OPSCHECK_SERVER @"OPSCHECK_SERVER"
 #define OPSCHECK_PATH @"/versionings/check?version=%@&build=%@&app_key=%@"
 
 #define OPSCHECK_CHECK_HEADER @"Version-Check"
@@ -21,7 +21,6 @@
 #define STATUS_SUCCESS 200
 #define STATUS_MALFORMED_REQUEST 400
 #define STATUS_PERMISSION_DENIED 401
-
 
 #define DEBUG_PREFIX @"DEBUG OPSCHECK -"
 
