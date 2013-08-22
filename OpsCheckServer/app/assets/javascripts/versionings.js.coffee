@@ -1,3 +1,6 @@
 $(document).ready ->
-  if $('#content').length > 0
-    CKEDITOR.replace('content')
+  if $('textarea#content').length > 0
+    CKEDITOR.replace( 'versioning[content]' );
+
+
+
