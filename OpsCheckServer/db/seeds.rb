@@ -7,20 +7,20 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-user = User.create(
+user = User.create!(
     {
-        :email => 'giuseppem@slalom.com',
-        :password => '11031984',
-        :password_confirmation => '11031984'
+        :email => 'admin@slalom.com',
+        :password => 'race2win',
+        :password_confirmation => 'race2win'
     }
 )
 
-user.save
 
-app = App.create(
+
+app = App.create!(
     {
-        :name => 'SmartAlert iOS',
-        :identifier => 'com.slalom.SmartAlert',
+        :name => 'MLevel iOS',
+        :identifier => 'com.slalom.mlevel',
         :app_type => 'iOS',
         :url => 'https://itunes.apple.com/us/app/mlevel/id577848463',
         :user => user
