@@ -25,7 +25,7 @@ class VersioningsController < ApplicationController
 
   # POST /versionings
   def create
-    remove_javascript(versioning_params[:content])
+    #remove_javascript(versioning_params[:content])
     @versioning = Versioning.new(versioning_params)
 
     if @versioning.save
@@ -37,7 +37,7 @@ class VersioningsController < ApplicationController
 
   # PATCH/PUT /versionings/1
   def update
-    remove_javascript(versioning_params[:content])
+    #remove_javascript(versioning_params[:content])
     if @versioning.update(versioning_params)
       redirect_to @versioning, notice: 'Versioning was successfully updated.'
     else
