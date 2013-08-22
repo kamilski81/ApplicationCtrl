@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSString *appVersion;
 @property (nonatomic, strong) NSString *appBuild;
 
+@property (nonatomic, strong) UIWebView *webView;
+
 @end
 
 @implementation OpsCheck
@@ -40,6 +42,14 @@
     }
     
     return self;
+}
+
+- (void)dealloc {
+    self.appKey = nil;
+    self.appVersion = nil;
+    self.appBuild = nil;
+    
+    self.webView = nil;
 }
 
 
@@ -184,32 +194,55 @@
     id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
     UIWindow *window = appDelegate.window;
     
+    /**
+     * Hiding status bar
+     */
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     
     /**
      * Creating webview to display message
      */
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [webView setScalesPageToFit:YES];
-    [webView setDelegate:self];
-    
-    
-    [webView loadHTMLString:[params objectForKey:@"body"] baseURL:[NSURL URLWithString:@"http://localhost:3000/versionings/check"]];
-    
-    [window addSubview:webView];
+    self.webView = [[UIWebView alloc] initWithFrame:window.frame];
+    [self.webView setScalesPageToFit:YES];
+    [self.webView setDelegate:self];
+    [self.webView loadHTMLString:[params objectForKey:@"body"] baseURL:[NSURL URLWithString:@"http://localhost:3000/versionings/check"]];
+    [window addSubview:self.webView];
+
+   
     
 }
 
 #pragma mark - UIWebView delegate
 
 // implement this method in the owning class
--(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType
-{
+- (BOOL)webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
     if (inType == UIWebViewNavigationTypeLinkClicked) {
-        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        
+        NSString *url = inRequest.URL.absoluteString;
+        if ([url rangeOfString:@"itunes.apple.com"].location == NSNotFound) {
+            if ([url isEqualToString:@"app://close-view"]) {
+                [self closeWebView];
+                return NO;
+            }
+        } else {
+            [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        }
         return NO;
     }
     
     return YES;
 }
+
+
+// Close web view UI
+- (void)closeWebView {
+    [self.webView setHidden:YES];
+    self.webView = nil;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
+
+
 
 @end
