@@ -13,6 +13,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    OpsCheck *opsCheck = [OpsCheck opsCheckWithAppKey:@"d44992361e2014c8404f920f36928dada60a27c4"];
+    
+    [opsCheck checkAsyncVersionWithCompletionHandler:nil];
+    
     return YES;
 }
 							

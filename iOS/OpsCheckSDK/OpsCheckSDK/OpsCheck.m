@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface OpsCheck () <NSURLConnectionDataDelegate>
+@interface OpsCheck () <NSURLConnectionDataDelegate, UIWebViewDelegate>
 
 @property (nonatomic, strong) NSString *appKey;
 @property (nonatomic, strong) NSString *appVersion;
@@ -35,7 +35,7 @@
 
 - (id)initWithappKey:(NSString *)appKey {
     self = [super init];
-    if (self) {        
+    if (self) {
         self.appKey = appKey;
     }
     
@@ -84,7 +84,7 @@
                 connect = NO;
                 forceUpdateCheck = NO;
                 break;
-            case STATUS_SUCCESS: { 
+            case STATUS_SUCCESS: {
                 versionCheck = [[response allHeaderFields] objectForKey:OPSCHECK_CHECK_HEADER];
                 
                 // check version-check header
@@ -107,17 +107,17 @@
     }
     
     
-    NSString *message = body;
-    
     if (handler) {
         handler(connect, forceUpdateCheck, response.statusCode, body, error);
     } else {
-        
-        if (error) {
-            message = [error localizedDescription];
-        }
-        
-        [self showMessage:message];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithBool:connect], @"connect",
+                                [NSNumber numberWithBool:forceUpdateCheck], @"forceUpdate",
+                                [NSNumber numberWithInt:response.statusCode], @"statusCode",
+                                body, @"body",
+                                error, @"error",
+                                nil];
+        [self showWebView:params];
     }
     
 }
@@ -148,15 +148,17 @@
     return requestUrl;
 }
 
+
 - (NSURLRequest *)request {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[self requestURL]]
-                                                    cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                                timeoutInterval:30];
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                       timeoutInterval:30];
     [request setHTTPMethod:@"GET"];
-
+    
     return request;
     
 }
+
 
 - (NSData *)performSyncValidationWithRequest:(NSURLRequest *)request response:(NSHTTPURLResponse **)response error:(NSError **)error {
     return [NSURLConnection sendSynchronousRequest:request returningResponse:response error:error] ;
@@ -177,15 +179,37 @@
 
 #pragma mark - Show feedback to user
 // TODO: use a webview by defautl
-- (void)showMessage:(NSString *)body {
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Not Able to connect"
-                                                      message:body
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-    [message show];
+
+- (void)showWebView:(NSDictionary *)params {
+    id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
+    UIWindow *window = appDelegate.window;
+    
+    
+    /**
+     * Creating webview to display message
+     */
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [webView setScalesPageToFit:YES];
+    [webView setDelegate:self];
+    
+    
+    [webView loadHTMLString:[params objectForKey:@"body"] baseURL:[NSURL URLWithString:@"http://localhost:3000/versionings/check"]];
+    
+    [window addSubview:webView];
+    
 }
 
+#pragma mark - UIWebView delegate
 
+// implement this method in the owning class
+-(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType
+{
+    if (inType == UIWebViewNavigationTypeLinkClicked) {
+        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+        return NO;
+    }
+    
+    return YES;
+}
 
 @end
