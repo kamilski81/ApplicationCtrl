@@ -8,4 +8,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 @import "bootstrap.css";
-@import "justified-nav.css";
+
+.table-responsive {
+  .table-hover {
+    tbody {
+      cursor: pointer;
+    }
+  }
+}
+
+
+
+
+@import "fixed-nav-top.css.scss";
+
+
+
