@@ -3,6 +3,8 @@ package com.slalomdigital.opscheck;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import org.apache.http.Header;
@@ -16,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,63 +50,95 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
 
         // Get the key from the preferences
 
-        //TODO: properly create the url
-        url = "http://m.yahoo.com/";
-
-        HttpClient httpclient = new DefaultHttpClient();
-
-        // Prepare a request object
-        HttpGet httpget = new HttpGet(url);
-
-        // Execute the request
+        // properly create the url
+        String versionName = null;
+        int versionCode;
+        String appName = null;
+        String key = null;
+        String server = null;
         try {
-            response = httpclient.execute(httpget);
-            // Examine the response status
-            if (response.getStatusLine().getStatusCode() == 200) {
-                // Check the server status in the headers...
-                Header serverStatusHeader = response.getFirstHeader("Server Status");
-                if (serverStatusHeader != null && !serverStatusHeader.getValue().trim().equalsIgnoreCase("connect")) {
-                    // Don't Connect...
-                    returnValue = false;
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            versionName = pInfo.versionName;
+            versionCode = pInfo.versionCode;
+            appName = context.getPackageName();
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("OpsCheck", "Exception getting package info: " + e.getLocalizedMessage());
+            // Let the app operate normally when there's a problem with OpsCheck
+            returnValue = true;
+        }
+
+        try {
+            // Pull from props
+            InputStream inputStream = context.getResources().getAssets().open("opscheckconfig.properties");
+            Properties properties = new Properties();
+            properties.load(inputStream);
+
+            key = properties.getProperty("key", null);
+            server = properties.getProperty("server", null);
+        } catch (Exception e) {
+            Log.e("OpsCheck", "Exception while getting the URL or key from the properties:" + e.getLocalizedMessage());
+            // Let the app operate normally when there's a problem with OpsCheck
+            returnValue = true;
+        }
+
+        if (server != null && key != null && versionName != null && appName != null) {
+            url = server + "?app_key=" + key + "&version=" + versionName + "&build=" + appName;
+
+            HttpClient httpclient = new DefaultHttpClient();
+
+            // Prepare a request object
+            HttpGet httpget = new HttpGet(url);
+
+            // Execute the request
+            try {
+                response = httpclient.execute(httpget);
+                // Examine the response status
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    // Check the server status in the headers...
+                    Header serverStatusHeader = response.getFirstHeader("Server Status");
+                    if (serverStatusHeader != null && !serverStatusHeader.getValue().trim().equalsIgnoreCase("connect")) {
+                        // Don't Connect...
+                        returnValue = false;
+                    } else {
+                        returnValue = true;
+                    }
                 } else {
+                    Log.e("OpsCheck", "Server returned: " + response.getStatusLine().toString());
+
+                    // When we fail to do the check we let the application operate normally...
                     returnValue = true;
                 }
-            } else {
-                Log.e("OpsCheck", "Server returned: " + response.getStatusLine().toString());
+
+                // Get hold of the response entity
+                // If the response does not enclose an entity, there is no need
+                // to worry about connection release
+                HttpEntity entity = response.getEntity();
+
+                // Get the type
+                type = entity.getContentType().getValue();
+
+                // Get the encoding
+                try {
+                    encoding = entity.getContentEncoding().getValue();
+                } catch (Exception e) {
+                    Log.i("OpsCheck", "Exception getting encoding header: " + e.getLocalizedMessage());
+                }
+
+                try {
+                    // A Simple HTML Response Read
+                    InputStream instream = entity.getContent();
+                    body = convertStreamToString(instream);
+                    // now you have the string representation of the HTML request
+                    instream.close();
+                } catch (Exception e) {
+                    Log.e("OpsCheck", "Exception reading response body: " + e.getLocalizedMessage());
+                }
+            } catch (Exception e) {
+                Log.e("OpsCheck", "Exception during check: " + e.getLocalizedMessage());
 
                 // When we fail to do the check we let the application operate normally...
                 returnValue = true;
             }
-
-            // Get hold of the response entity
-            // If the response does not enclose an entity, there is no need
-            // to worry about connection release
-            HttpEntity entity = response.getEntity();
-
-            // Get the type
-            type = entity.getContentType().getValue();
-
-            // Get the encoding
-            try {
-                encoding = entity.getContentEncoding().getValue();
-            } catch (Exception e) {
-                Log.i("OpsCheck", "Exception getting encoding header: " + e.getLocalizedMessage());
-            }
-
-            try {
-                // A Simple HTML Response Read
-                InputStream instream = entity.getContent();
-                body = convertStreamToString(instream);
-                // now you have the string representation of the HTML request
-                instream.close();
-            } catch (Exception e) {
-                Log.e("OpsCheck", "Exception reading response body: " + e.getLocalizedMessage());
-            }
-        } catch (Exception e) {
-            Log.e("OpsCheck", "Exception during check: " + e.getLocalizedMessage());
-
-            // When we fail to do the check we let the application operate normally...
-            returnValue = true;
         }
 
         // update the preference
