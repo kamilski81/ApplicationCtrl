@@ -20,6 +20,8 @@ user = User.create!(
     }
 )
 
+user.groups << group
+
 
 App.create!(
     {
@@ -27,6 +29,6 @@ App.create!(
         :identifier => 'com.slalom.mlevel',
         :app_type => 'iOS',
         :url => 'https://itunes.apple.com/us/app/mlevel/id577848463',
-        :group => user
+        :group_id => group.id
     }
 )

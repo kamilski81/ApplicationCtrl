@@ -54,6 +54,6 @@ class AppsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def app_params
-      params.require(:app).permit(:name, :identifier, :key, :app_type, :url, :user_id)
+      params.require(:app).permit(:name, :identifier, :key, :app_type, :url, :group_id)
     end
 end
