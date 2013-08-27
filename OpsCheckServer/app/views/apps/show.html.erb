@@ -30,6 +30,8 @@
   <%= @app.group.name %>
 </p>
 
+<%= link_to 'Edit', edit_app_path(@app), :class => 'btn btn-large btn-success'  %>
+
 <div>
   <div>
     <h3>Versions:</h3>
@@ -41,5 +43,4 @@
   <%= render 'versionings/list' %>
 </div>
 
-<%= link_to 'Edit', edit_app_path(@app), :class => 'btn btn-large btn-success'  %> |
-<%= link_to 'Back', apps_path %>
+
