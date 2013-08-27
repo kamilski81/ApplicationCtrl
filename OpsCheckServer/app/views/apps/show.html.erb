@@ -26,9 +26,20 @@
 </p>
 
 <p>
-  <strong>User:</strong>
+  <strong>Group:</strong>
   <%= @app.group.name %>
 </p>
 
-<%= link_to 'Edit', edit_app_path(@app) %> |
+<div>
+  <div>
+    <h3>Versions:</h3>
+    <span class="label label-success">Working</span>
+    <span class="label label-warning">Warning</span>
+    <span class="label label-danger">Must Update</span>
+  </div>
+
+  <%= render 'versionings/list' %>
+</div>
+
+<%= link_to 'Edit', edit_app_path(@app), :class => 'btn btn-large btn-success'  %> |
 <%= link_to 'Back', apps_path %>

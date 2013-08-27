@@ -82,12 +82,10 @@ class VersioningsController < ApplicationController
       @application = App.where(key: app_key).first
 
       if @application
-        @versioning = Versioning.where(app_id: @application.id).first
+        @versioning = Versioning.where(app_id: @application.id, version: version, build: build).first
         if @versioning.nil?
           versioning_params = check_versioning_params.except(:app_key)
-          versioning_params.merge!({
-                                      :app_id => @application.id
-                                  })
+          versioning_params.merge!({:app_id => @application.id})
           @versioning = Versioning.create(versioning_params)
 
           if @versioning.save == false

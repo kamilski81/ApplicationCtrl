@@ -10,6 +10,7 @@ class AppsController < ApplicationController
 
   # GET /apps/1
   def show
+    @versionings = @app.versionings
   end
 
   # GET /apps/new

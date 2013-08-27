@@ -25,8 +25,10 @@
   <% end %>
 </div>
 <div class="row">
-  <% if @versioning.warning && (not @versioning.force_update) %>
-      <a href="app://close-view" class="btn btn-primary btn-lg btn-block">Close this window</a>
+  <% if not @versioning.nil? %>
+      <% if @versioning.warning && (not @versioning.force_update) %>
+          <a href="app://close-view" class="btn btn-primary btn-lg btn-block">Close this window</a>
+      <% end %>
   <% end %>
 </div>
 
