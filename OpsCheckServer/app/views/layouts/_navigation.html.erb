@@ -1,23 +1,35 @@
-<section class="masthead">
-  <h3 class="text-muted">Operations Check</h3>
-  <ul class="nav nav-justified">
-    <li class="<%= active_class 'home' %>">
-      <%= link_to 'Home', root_path %>
-    </li>
-    <li class="<%= active_class 'applications' %>">
-      <%= link_to 'Applications', apps_path %>
-    </li>
-    <li class="<%= active_class 'services' %>">
-      <a href="#">Services</a>
-    </li>
-    <li class="<%= active_class 'downloads' %>">
-      <a href="#">Downloads</a>
-    </li>
-    <li class="<%= active_class 'about' %>">
-      <a href="#">About</a>
-    </li>
-    <li class="<%= active_class 'contact' %>">
-      <a href="#">Contact</a>
-    </li>
-  </ul>
-</section>
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Operations Check</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="<%= active_class 'home' %>">
+          <%= link_to 'Home', root_path %>
+        </li>
+        <li class="<%= active_class 'applications' %>">
+          <%= link_to 'Applications', apps_path %>
+        </li>
+        <li class="<%= active_class 'versionings' %>">
+          <%= link_to 'Groups', groups_path %>
+        </li>
+        <li class="<%= active_class 'downloads' %>">
+          <a href="#">Downloads</a>
+        </li>
+        <li class="<%= active_class 'about' %>">
+          <a href="#">About</a>
+        </li>
+        <li class="<%= active_class 'contact' %>">
+          <a href="#">Contact</a>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+

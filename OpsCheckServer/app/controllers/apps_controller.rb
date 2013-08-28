@@ -4,7 +4,8 @@ class AppsController < ApplicationController
 
   # GET /apps
   def index
-    @apps = App.all
+    user = current_user
+    @apps = App.where(:group_id => user.groups)
   end
 
   # GET /apps/1
@@ -22,6 +23,7 @@ class AppsController < ApplicationController
 
   # POST /apps
   def create
+
     @app = App.new(app_params)
 
     if @app.save
@@ -33,6 +35,7 @@ class AppsController < ApplicationController
 
   # PATCH/PUT /apps/1
   def update
+    # TODO: use cancan to check ability
     if @app.update(app_params)
       redirect_to @app, notice: 'App was successfully updated.'
     else
@@ -42,6 +45,7 @@ class AppsController < ApplicationController
 
   # DELETE /apps/1
   def destroy
+    # TODO: use cancan to check ability
     @app.destroy
     redirect_to apps_url, notice: 'App was successfully destroyed.'
   end
@@ -54,6 +58,6 @@ class AppsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def app_params
-      params.require(:app).permit(:name, :identifier, :key, :app_type, :url, :user_id)
+      params.require(:app).permit(:name, :identifier, :key, :app_type, :url, :group_id)
     end
 end

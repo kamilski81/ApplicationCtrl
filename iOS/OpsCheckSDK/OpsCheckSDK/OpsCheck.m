@@ -11,8 +11,10 @@
 #import <UIKit/UIKit.h>
 
 
+
 @interface OpsCheck () <NSURLConnectionDataDelegate, UIWebViewDelegate>
 
+@property (nonatomic, strong) NSString *opsCheckServer;
 @property (nonatomic, strong) NSString *appKey;
 @property (nonatomic, strong) NSString *appVersion;
 @property (nonatomic, strong) NSString *appBuild;
@@ -38,6 +40,7 @@
 - (id)initWithappKey:(NSString *)appKey {
     self = [super init];
     if (self) {
+        self.opsCheckServer = [[NSBundle mainBundle] objectForInfoDictionaryKey:OPSCHECK_SERVER];
         self.appKey = appKey;
     }
     
@@ -147,12 +150,15 @@
         self.appBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
     }
     
+    
+    
+    
     NSString *customPath = [NSString stringWithFormat:OPSCHECK_PATH,
                             self.appVersion,
                             self.appBuild,
                             self.appKey];
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@",
-                            OPSCHECK_SERVER,
+                            self.opsCheckServer,
                             [customPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     return requestUrl;

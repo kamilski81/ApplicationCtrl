@@ -6,23 +6,29 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+group = Group.create!(
+    {
+        :name => 'Slalom Digital'
+    }
+)
 
 user = User.create!(
     {
         :email => 'admin@slalom.com',
         :password => 'race2win',
-        :password_confirmation => 'race2win'
+        :password_confirmation => 'race2win',
     }
 )
 
+user.groups << group
 
 
-app = App.create!(
+App.create!(
     {
         :name => 'MLevel iOS',
         :identifier => 'com.slalom.mlevel',
         :app_type => 'iOS',
         :url => 'https://itunes.apple.com/us/app/mlevel/id577848463',
-        :user => user
+        :group_id => group.id
     }
 )

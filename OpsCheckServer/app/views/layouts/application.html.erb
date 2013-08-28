@@ -11,8 +11,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="<%= body_class %>">
+<%= render 'layouts/navigation' %>
 <div class="container">
-  <%= render 'layouts/navigation' %>
   <%= render 'flashes' -%>
   <%= yield %>
   <footer class="footer">
@@ -20,6 +20,7 @@
 
     <% if user_signed_in? %>
         <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
+        <%= link_to 'Edit Account', edit_user_registration_path %>
     <% else %>
         <%= link_to "Sign in", new_user_session_path %>
     <% end %>

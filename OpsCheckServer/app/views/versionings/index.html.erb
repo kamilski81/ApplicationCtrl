@@ -1,34 +1,36 @@
 <h1>Listing versionings</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Version</th>
-      <th>Build</th>
-      <th>Warning</th>
-      <th>Force Update</th>
-      <th>App</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Build</th>
+          <th>Warning</th>
+          <th>Force Update</th>
+          <th>App</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @versionings.each do |versioning| %>
-      <tr>
-        <td><%= versioning.version %></td>
-        <td><%= versioning.build %></td>
-        <td><%= versioning.warning %></td>
-        <td><%= versioning.force_update %></td>
-        <td><%= versioning.app.name %></td>
-        <td><%= link_to 'Show', versioning %></td>
-        <td><%= link_to 'Edit', edit_versioning_path(versioning) %></td>
-        <td><%= link_to 'Destroy', versioning, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @versionings.each do |versioning| %>
+          <tr>
+            <td><%= versioning.version %></td>
+            <td><%= versioning.build %></td>
+            <td><%= versioning.warning %></td>
+            <td><%= versioning.force_update %></td>
+            <td><%= versioning.app.name %></td>
+            <td><%= link_to 'Show', versioning %></td>
+            <td><%= link_to 'Edit', edit_versioning_path(versioning) %></td>
+            <td><%= link_to 'Destroy', versioning, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+</div>
 
 <br>
 

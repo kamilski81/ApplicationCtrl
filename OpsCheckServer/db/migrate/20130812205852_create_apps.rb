@@ -3,12 +3,17 @@ class CreateApps < ActiveRecord::Migration
     create_table :apps do |t|
       t.string :name, null: false
       t.string :identifier, null: false
-      t.string :key, index: true, null: false
-      t.string :app_type, index: true, null: false, default: 'iOS'
+      t.string :key, null: false
+      t.string :app_type, null: false, default: 'iOS'
       t.string :url, null: false
-      t.references :user, index: true, null: false
+      t.references :group, null: false
 
       t.timestamps
     end
+
+    add_index :apps, :key, :unique => true
+    add_index :apps, :app_type
+    add_index :apps, :name
+    add_index :apps, :group_id
   end
 end

@@ -11,7 +11,6 @@
 typedef void (^OpsCheckCompletionHanlder)(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error);
 
 
-
 @interface OpsCheck : NSObject
 
 /**

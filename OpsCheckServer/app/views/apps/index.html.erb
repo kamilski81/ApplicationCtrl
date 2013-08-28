@@ -1,35 +1,39 @@
 <h1>Listing apps</h1>
 
-<table>
-  <thead>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
     <tr>
       <th>Name</th>
       <th>Identifier</th>
-      <th>Key</th>
+      <th>App Key</th>
       <th>App type</th>
       <th>User</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th class="hidden"></th>
+      <th class="hidden"></th>
+      <th class="hidden"></th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
+    <tbody>
     <% @apps.each do |app| %>
-      <tr>
-        <td><%= app.name %></td>
-        <td><%= app.identifier %></td>
-        <td><%= app.key %></td>
-        <td><%= app.app_type %></td>
-        <td><%= app.user.email %></td>
-        <td><%= link_to 'Show', app %></td>
-        <td><%= link_to 'Edit', edit_app_path(app) %></td>
-        <td><%= link_to 'Destroy', app, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <tr>
+          <td><%= app.name %></td>
+          <td><%= app.identifier %></td>
+          <td><%= app.key %></td>
+          <td><%= app.app_type %></td>
+          <td><%= app.group.name %></td>
+          <td class="show-link hidden"><%= link_to 'Show', app %></td>
+          <td class="edit-link hidden"><%= link_to 'Edit', edit_app_path(app) %></td>
+          <td class="destroy-link hidden"><%= link_to 'Destroy', app, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
+
+
 
 <br>
 
-<%= link_to 'New App', new_app_path %>
+<%= link_to 'New App', new_app_path, class: 'btn btn-large btn-success' %>
