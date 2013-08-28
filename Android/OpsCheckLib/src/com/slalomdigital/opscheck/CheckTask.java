@@ -95,7 +95,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
                 // Examine the response status
                 if (response.getStatusLine().getStatusCode() == 200) {
                     // Check the server status in the headers...
-                    Header serverStatusHeader = response.getFirstHeader("Server Status");
+                    Header serverStatusHeader = response.getFirstHeader("Version-Check");
                     if (serverStatusHeader != null && !serverStatusHeader.getValue().trim().equalsIgnoreCase("connect")) {
                         // Don't Connect...
                         returnValue = false;
@@ -153,7 +153,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         // Show an alert if needed...
-        if (showPopup && result && url != null && body != null) {
+        if (showPopup && !result && url != null && body != null) {
             Intent intent = new Intent(context, OpsCheckDialogActivity.class);
             intent.putExtra(OpsCheckDialogActivity.EXTRA_BODY, body);
             if (type != null) intent.putExtra(OpsCheckDialogActivity.EXTRA_TYPE, type);
