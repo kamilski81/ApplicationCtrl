@@ -1,4 +1,4 @@
-package com.slalomdigital.opscheck;
+package com.slalomdigital.applicationctrl;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.TextView;
  * Time: 9:22 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OpsCheckDialogActivity extends Activity {
+public class ApplicationCtrlDialogActivity extends Activity {
     public static final String EXTRA_BODY = "extra_body";
     public static final String EXTRA_TYPE = "extra_type";
     public static final String EXTRA_ENCODING = "extra_encoding";
@@ -38,7 +38,7 @@ public class OpsCheckDialogActivity extends Activity {
 
         if (body == null || type == null || !type.toLowerCase().contains("text/html")) {
             // Simple text box with OK button...
-            setContentView(R.layout.ops_check_textview_activity);
+            setContentView(R.layout.application_ctrl_textview_activity);
             if (body != null) {
                 TextView textView = (TextView) findViewById(R.id.textView);
                 textView.setText(body);
@@ -48,7 +48,7 @@ public class OpsCheckDialogActivity extends Activity {
         }
         else {
             // WebView...
-            setContentView(R.layout.ops_check_webview_activity);
+            setContentView(R.layout.application_ctrl_webview_activity);
             WebView webView = (WebView)findViewById(R.id.webView);
             // I had some problems with reloading the data so for now it's either a pop-up with text in it
             // or a webView and the page gets re-loaded.  Here's the code that had issues...

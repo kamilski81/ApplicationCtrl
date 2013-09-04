@@ -1,12 +1,7 @@
-package com.slalomdigital.opscheck;
+package com.slalomdigital.applicationctrl;
 
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +10,7 @@ import org.json.JSONObject;
  * Time: 3:44 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OpsCheck  {
+public class ApplicationCtrl {
     public static final String PREFERENCES = "opscheck_preferences";
     public static final String SHOULD_CONNECT = "should_connect";
 
@@ -26,7 +21,7 @@ public class OpsCheck  {
     }
 
     public static void check(Context context) {
-        OpsCheck.check(null, true, context);
+        ApplicationCtrl.check(null, true, context);
     }
 
     public static boolean shouldConnect(Context context) {
