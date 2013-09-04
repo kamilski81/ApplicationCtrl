@@ -10,7 +10,7 @@
 
 
 @interface OCSViewController ()
-@property (weak, nonatomic) IBOutlet UIWebView *opsCheckWebView;
+
 
 @end
 
@@ -26,6 +26,7 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
 }
 
 
