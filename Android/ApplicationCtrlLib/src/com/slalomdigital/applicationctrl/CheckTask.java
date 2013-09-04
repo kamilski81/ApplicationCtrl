@@ -69,7 +69,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
 
         try {
             // Pull from props
-            InputStream inputStream = context.getResources().getAssets().open("opscheckconfig.properties");
+            InputStream inputStream = context.getResources().getAssets().open("applicationctrl.properties");
             Properties properties = new Properties();
             properties.load(inputStream);
 
@@ -142,8 +142,8 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
         }
 
         // update the preference
-        SharedPreferences opsCheckPrefs = context.getSharedPreferences(ApplicationCtrl.PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = opsCheckPrefs.edit();
+        SharedPreferences applicationCtrlPrefs = context.getSharedPreferences(ApplicationCtrl.PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = applicationCtrlPrefs.edit();
         editor.putBoolean(ApplicationCtrl.SHOULD_CONNECT, returnValue);
         editor.commit();
 

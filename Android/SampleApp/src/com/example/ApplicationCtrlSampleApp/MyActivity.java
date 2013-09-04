@@ -13,7 +13,7 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Start the ops check...
+        // Start the application-[ctrl] check...
         ApplicationCtrl.check(this);
         // Go on about our business; if the check fails it will launch an activity
 

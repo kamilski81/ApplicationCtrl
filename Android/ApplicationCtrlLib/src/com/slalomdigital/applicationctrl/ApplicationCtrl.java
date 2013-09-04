@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
  * To change this template use File | Settings | File Templates.
  */
 public class ApplicationCtrl {
-    public static final String PREFERENCES = "opscheck_preferences";
+    public static final String PREFERENCES = "applicationctrl_preferences";
     public static final String SHOULD_CONNECT = "should_connect";
 
     public static void check(CheckListener checkListener, boolean showPopup, Context context) {
@@ -26,7 +26,7 @@ public class ApplicationCtrl {
 
     public static boolean shouldConnect(Context context) {
         // check the preferences to see if connections should be allowed...
-        SharedPreferences opsCheckPrefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        return opsCheckPrefs.getBoolean(SHOULD_CONNECT, true);
+        SharedPreferences applicationCtrlPrefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        return applicationCtrlPrefs.getBoolean(SHOULD_CONNECT, true);
     }
 }
