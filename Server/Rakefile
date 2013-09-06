@@ -3,7 +3,7 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-OpsCheckServer::Application.load_tasks
+ApplicationCtrl::Application.load_tasks
 if defined?(RSpec)
   desc 'Run factory specs.'
 

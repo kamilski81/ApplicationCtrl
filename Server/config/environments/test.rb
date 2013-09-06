@@ -1,4 +1,4 @@
-OpsCheckServer::Application.configure do
+ApplicationCtrl::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # The test environment is used exclusively to run your application's
@@ -34,5 +34,5 @@ OpsCheckServer::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  config.action_mailer.default_url_options = { host: 'www.example.com' }
+  config.action_mailer.default_url_options = { host: 'test.applicationctrl.com' }
 end

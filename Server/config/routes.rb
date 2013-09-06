@@ -1,4 +1,4 @@
-OpsCheckServer::Application.routes.draw do
+ApplicationCtrl::Application.routes.draw do
 
   resources :groups
 

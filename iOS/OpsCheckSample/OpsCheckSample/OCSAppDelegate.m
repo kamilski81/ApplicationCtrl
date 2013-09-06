@@ -15,7 +15,7 @@
 {
     OpsCheck *opsCheck = [OpsCheck opsCheckWithAppKey:@"d44992361e2014c8404f920f36928dada60a27c4"];
     
-    [opsCheck checkAsyncVersionWithCompletionHandler:nil];
+//    [opsCheck checkAsyncVersionWithCompletionHandler:nil];
     
     return YES;
 }
@@ -46,4 +46,6 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+@end
 

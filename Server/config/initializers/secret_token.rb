@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-OpsCheckServer::Application.config.secret_key_base = '1be3a994920e2a067bcdefb4ac5a4ebe5a3554663d7288eaeeb4cd1c70e96f2461d74329c3ed072989b59ee973e866c12d8bab60f1d50d970fdae3b8c53538fe'
+ApplicationCtrl::Application.config.secret_key_base = '1be3a994920e2a067bcdefb4ac5a4ebe5a3554663d7288eaeeb4cd1c70e96f2461d74329c3ed072989b59ee973e866c12d8bab60f1d50d970fdae3b8c53538fe'

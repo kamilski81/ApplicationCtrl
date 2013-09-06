@@ -1,6 +1,6 @@
 Mail.register_interceptor RecipientInterceptor.new(ENV['EMAIL_RECIPIENTS'])
 require Rails.root.join('config/initializers/smtp')
-OpsCheckServer::Application.configure do
+ApplicationCtrl::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -83,5 +83,5 @@ OpsCheckServer::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.action_mailer.default_url_options = { host: 'staging.OpsCheckServer.com' }
+  config.action_mailer.default_url_options = { host: 'staging.applicationctrl.com' }
 end

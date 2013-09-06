@@ -96,7 +96,7 @@ class VersioningsController < ApplicationController
         else
 
           if @versioning.warning
-            @description = 'Your current application version is outdated. Please update it!'
+            @description = 'Your current application version is outdated. Please update!'
             header = "DON'T CONNECT"
           end
 
