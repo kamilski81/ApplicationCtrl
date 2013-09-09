@@ -1,5 +1,5 @@
 //
-//  OpsCheck.h
+//  ApplicationCtrl.h
 //  ApplicationCtrlSDK
 //
 //  Created by Giuseppe Macri on 8/14/13.
@@ -8,29 +8,29 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^OpsCheckCompletionHanlder)(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error);
+typedef void (^ApplicationCtrlCompletionHanlder)(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error);
 
 
 @interface ApplicationCtrl : NSObject
 
 /**
- * Init the OpsCheck singleton class
+ * Init the ApplicationCtrl singleton class
  */
-+ (ApplicationCtrl *)opsCheckWithAppKey:(NSString *)appKey;
++ (ApplicationCtrl *)ApplicationCtrlWithAppKey:(NSString *)appKey;
 
 
 /**
  * Send a sync request to the server
  */
-- (void)checkSyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler;
+- (void)checkSyncVersionWithCompletionHandler:(ApplicationCtrlCompletionHanlder)handler;
 
 /**
  * Send an async request to the server
  */
-- (void)checkAsyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler;
+- (void)checkAsyncVersionWithCompletionHandler:(ApplicationCtrlCompletionHanlder)handler;
 
 /**
- * Print OpsCHeck instance information
+ * Print ApplicationCtrl instance information
  */
 - (NSString *)info;
 

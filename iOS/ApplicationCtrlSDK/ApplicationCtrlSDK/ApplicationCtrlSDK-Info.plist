@@ -24,7 +24,7 @@
 	<string>1</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
-	<key>OPSCHECK_SERVER</key>
+	<key>ApplicationCtrl_SERVER</key>
 	<string>http://localhost:3000</string>
 </dict>
 </plist>

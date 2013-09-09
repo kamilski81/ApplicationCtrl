@@ -18,11 +18,11 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>OPSCHECK_APP_KEY</key>
+	<key>ApplicationCtrl_APP_KEY</key>
 	<string>d44992361e2014c8404f920f36928dada60a27c4</string>
-	<key>OPSCHECK_EXPECTED_URL</key>
+	<key>ApplicationCtrl_EXPECTED_URL</key>
 	<string>http://localhost:3000/versionings/check?version=1.0&amp;build=1.0&amp;app_key=d44992361e2014c8404f920f36928dada60a27c4</string>
-	<key>OPSCHECK_SERVER</key>
+	<key>ApplicationCtrl_SERVER</key>
 	<string>http://localhost:3000</string>
 </dict>
 </plist>

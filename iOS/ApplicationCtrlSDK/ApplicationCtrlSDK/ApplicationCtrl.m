@@ -1,5 +1,5 @@
 //
-//  OpsCheck.m
+//  ApplicationCtrl.m
 //  ApplicationCtrlSDK
 //
 //  Created by Giuseppe Macri on 8/14/13.
@@ -14,7 +14,7 @@
 
 @interface ApplicationCtrl () <NSURLConnectionDataDelegate, UIWebViewDelegate>
 
-@property (nonatomic, strong) NSString *opsCheckServer;
+@property (nonatomic, strong) NSString *ApplicationCtrlServer;
 @property (nonatomic, strong) NSString *appKey;
 @property (nonatomic, strong) NSString *appVersion;
 @property (nonatomic, strong) NSString *appBuild;
@@ -25,7 +25,7 @@
 
 @implementation ApplicationCtrl
 
-+ (ApplicationCtrl *)opsCheckWithAppKey:(NSString *)appKey {
++ (ApplicationCtrl *)ApplicationCtrlWithAppKey:(NSString *)appKey {
     static dispatch_once_t _singletonPredicate;
     static ApplicationCtrl *_singleton = nil;
     
@@ -40,7 +40,7 @@
 - (id)initWithappKey:(NSString *)appKey {
     self = [super init];
     if (self) {
-        self.opsCheckServer = [[NSBundle mainBundle] objectForInfoDictionaryKey:OPSCHECK_SERVER];
+        self.ApplicationCtrlServer = [[NSBundle mainBundle] objectForInfoDictionaryKey:ApplicationCtrl_SERVER];
         self.appKey = appKey;
     }
     
@@ -58,7 +58,7 @@
 
 #pragma mark - Synchronous version check
 
-- (void)checkSyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler {
+- (void)checkSyncVersionWithCompletionHandler:(ApplicationCtrlCompletionHanlder)handler {
     
     NSHTTPURLResponse *response = nil;
     NSError *error = nil;
@@ -70,7 +70,7 @@
 }
 
 
-- (void)checkAsyncVersionWithCompletionHandler:(OpsCheckCompletionHanlder)handler {
+- (void)checkAsyncVersionWithCompletionHandler:(ApplicationCtrlCompletionHanlder)handler {
     [NSURLConnection sendAsynchronousRequest:[self request] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         [self handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:data error:error completionHandler:handler];
     }];
@@ -80,7 +80,7 @@
  * Response Handler
  */
 
-- (void)handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *)error completionHandler:(OpsCheckCompletionHanlder)handler {
+- (void)handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *)error completionHandler:(ApplicationCtrlCompletionHanlder)handler {
     NSString *versionCheck = nil;
     BOOL forceUpdateCheck = NO;
     BOOL connect = NO;
@@ -98,13 +98,13 @@
                 forceUpdateCheck = NO;
                 break;
             case STATUS_SUCCESS: {
-                versionCheck = [[response allHeaderFields] objectForKey:OPSCHECK_CHECK_HEADER];
+                versionCheck = [[response allHeaderFields] objectForKey:ApplicationCtrl_CHECK_HEADER];
                 
                 // check version-check header
                 if (![versionCheck isEqualToString:STATUS_CONNECT]) {
                     connect = NO;
                     // check force update header
-                    NSString *forceUpdateCheckString = [[response allHeaderFields] objectForKey:OPSCHECK_FORCE_UPDATE_HEADER];
+                    NSString *forceUpdateCheckString = [[response allHeaderFields] objectForKey:ApplicationCtrl_FORCE_UPDATE_HEADER];
                     forceUpdateCheck = [forceUpdateCheckString boolValue];
                 } else {
                     connect = YES;
@@ -116,7 +116,7 @@
                 break;
         }
     } else {
-        NSLog(@"DEBUG OPSCHECK - Response error: %@", error);
+        NSLog(@"DEBUG ApplicationCtrl - Response error: %@", error);
     }
     
     
@@ -153,12 +153,12 @@
     
     
     
-    NSString *customPath = [NSString stringWithFormat:OPSCHECK_PATH,
+    NSString *customPath = [NSString stringWithFormat:ApplicationCtrl_PATH,
                             self.appVersion,
                             self.appBuild,
                             self.appKey];
     NSString *requestUrl = [NSString stringWithFormat:@"%@%@",
-                            self.opsCheckServer,
+                            self.ApplicationCtrlServer,
                             [customPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     return requestUrl;

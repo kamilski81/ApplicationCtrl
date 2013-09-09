@@ -57,10 +57,6 @@ class VersioningsController < ApplicationController
 
   # GET /versionings/check
   def check
-
-    request
-
-
     header = 'CONNECT'
     version_check_header =  'Version-Check'
     version_check_force_header = 'Version-Check-Force'

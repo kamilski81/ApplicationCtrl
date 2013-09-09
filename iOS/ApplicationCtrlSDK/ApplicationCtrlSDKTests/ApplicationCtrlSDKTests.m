@@ -10,13 +10,13 @@
 #import "ApplicationCtrl.h"
 #import "Constants.h"
 
-#define TEST_APP_KEY @"OPSCHECK_APP_KEY"
-#define TEST_EXPECTED_URL @"OPSCHECK_EXPECTED_URL"
+#define TEST_APP_KEY @"ApplicationCtrl_APP_KEY"
+#define TEST_EXPECTED_URL @"ApplicationCtrl_EXPECTED_URL"
 
 #define TEST_APP_VERSION @"appVersion"
 #define TEST_APP_BUILD @"appBuild"
 
-#define TEST_OPSCHECK_SERVER @"opsCheckServer"
+#define TEST_ApplicationCtrl_SERVER @"ApplicationCtrlServer"
 #define TEST_RESPONSE @"response"
 
 
@@ -30,14 +30,14 @@
 
 - (NSString *)requestURL;
 
-- (void)handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *)error completionHandler:(OpsCheckCompletionHanlder)handler;
+- (void)handleServerResponseWithResponse:(NSHTTPURLResponse *)response data:(NSData *)data error:(NSError *)error completionHandler:(ApplicationCtrlCompletionHanlder)handler;
 
 @end
 
 
 @interface ApplicationCtrlSDKTests ()
 
-@property (atomic, strong) ApplicationCtrl *opsCheck;
+@property (atomic, strong) ApplicationCtrl *ApplicationCtrl;
 @property (nonatomic, strong) NSBundle *testBundle;
 
 @end
@@ -59,26 +59,26 @@
     NSString *appVersion = [self.testBundle objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
     NSString *appBuild = [self.testBundle objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
     NSString *appKey = [self.testBundle objectForInfoDictionaryKey:TEST_APP_KEY];
-    NSString *opsCheckServer = [self.testBundle objectForInfoDictionaryKey:OPSCHECK_SERVER];
+    NSString *ApplicationCtrlServer = [self.testBundle objectForInfoDictionaryKey:ApplicationCtrl_SERVER];
     /**
      * This is an hack to access "private" fields in the ops class so I can test URL creation
      */
-    self.opsCheck = [ApplicationCtrl opsCheckWithAppKey:appKey];
-    [self.opsCheck setValue:appVersion forKey:TEST_APP_VERSION];
-    [self.opsCheck setValue:appBuild forKey:TEST_APP_BUILD];
-    [self.opsCheck setValue:opsCheckServer forKey:TEST_OPSCHECK_SERVER];
+    self.ApplicationCtrl = [ApplicationCtrl ApplicationCtrlWithAppKey:appKey];
+    [self.ApplicationCtrl setValue:appVersion forKey:TEST_APP_VERSION];
+    [self.ApplicationCtrl setValue:appBuild forKey:TEST_APP_BUILD];
+    [self.ApplicationCtrl setValue:ApplicationCtrlServer forKey:TEST_ApplicationCtrl_SERVER];
 
 }
 
 - (void)tearDown {
     // Tear-down code here.
-    self.opsCheck = nil;
+    self.ApplicationCtrl = nil;
     self.testBundle = nil;
     [super tearDown];
 }
 
 - (void)testUrlCreation {
-    NSString *requestURL = [self.opsCheck requestURL];
+    NSString *requestURL = [self.ApplicationCtrl requestURL];
     NSString *expectedURL = [self.testBundle objectForInfoDictionaryKey:TEST_EXPECTED_URL];
     STAssertEqualObjects(expectedURL, requestURL, @"Request URL - We expected the %@, but it was %@", expectedURL, requestURL);
 }
@@ -88,14 +88,14 @@
  * This test case is connecting to the server.
  */ 
 - (void)testSyncCommucationSuccessStatusCode {
-    [self.opsCheck checkSyncVersionWithCompletionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+    [self.ApplicationCtrl checkSyncVersionWithCompletionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         BOOL check = STATUS_SUCCESS == status;
         STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", STATUS_SUCCESS, status);
     }];
 }
 
 - (void)testAsyncCommucationSuccessStatusCode {
-    [self.opsCheck checkAsyncVersionWithCompletionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+    [self.ApplicationCtrl checkAsyncVersionWithCompletionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         BOOL check = STATUS_SUCCESS == status;
         STAssertTrue(check, @"Status Code - We expected the %d, but it was %d", STATUS_SUCCESS, status);
     }];
@@ -108,14 +108,14 @@
      * Mocking server response
      */
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
-//    NSDictionary *headerFields = [NSDictionary dictionaryWithObject:STATUS_CONNECT forKey:OPSCHECK_CHECK_HEADER];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_CONNECT, ApplicationCtrl_CHECK_HEADER, @"false", ApplicationCtrl_FORCE_UPDATE_HEADER, nil];
+//    NSDictionary *headerFields = [NSDictionary dictionaryWithObject:STATUS_CONNECT forKey:ApplicationCtrl_CHECK_HEADER];
     
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+    [self.ApplicationCtrl handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
@@ -144,11 +144,11 @@
      */
     
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, ApplicationCtrl_CHECK_HEADER, @"false", ApplicationCtrl_FORCE_UPDATE_HEADER, nil];
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+    [self.ApplicationCtrl handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
@@ -175,11 +175,11 @@
      */
     
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"true", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, ApplicationCtrl_CHECK_HEADER, @"true", ApplicationCtrl_FORCE_UPDATE_HEADER, nil];
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_SUCCESS HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+    [self.ApplicationCtrl handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
@@ -205,12 +205,12 @@
      * Mocking server response
      */
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, ApplicationCtrl_CHECK_HEADER, @"false", ApplicationCtrl_FORCE_UPDATE_HEADER, nil];
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_MALFORMED_REQUEST HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+    [self.ApplicationCtrl handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
@@ -232,11 +232,11 @@
      * Mocking server response
      */
     NSData *data = [NSData data];
-    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, OPSCHECK_CHECK_HEADER, @"false", OPSCHECK_FORCE_UPDATE_HEADER, nil];
+    NSDictionary *headerFields = [NSDictionary dictionaryWithObjectsAndKeys:STATUS_DONT_CONNECT, ApplicationCtrl_CHECK_HEADER, @"false", ApplicationCtrl_FORCE_UPDATE_HEADER, nil];
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:TEST_EXPECTED_URL] statusCode:STATUS_PERMISSION_DENIED HTTPVersion:TEST_HTTP_VERSION headerFields:headerFields];
     NSError *error = nil;
     
-    [self.opsCheck handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
+    [self.ApplicationCtrl handleServerResponseWithResponse:response data:data error:error completionHandler:^(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error) {
         /**
          * Check version status == 200
          */
