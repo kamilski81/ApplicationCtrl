@@ -1,13 +1,13 @@
 //
 //  Header.h
-//  OpsCheckSDK
+//  ApplicationCtrlSDK
 //
 //  Created by Giuseppe Macri on 8/21/13.
 //  Copyright (c) 2013 Slalom. All rights reserved.
 //
 
-#ifndef OpsCheckSDK_Constants_h
-#define OpsCheckSDK_Constants_h
+#ifndef ApplicationCtrlSDK_Constants_h
+#define ApplicationCtrlSDK_Constants_h
 
 #define OPSCHECK_SERVER @"OPSCHECK_SERVER"
 #define OPSCHECK_PATH @"/versionings/check?version=%@&build=%@&app_key=%@"

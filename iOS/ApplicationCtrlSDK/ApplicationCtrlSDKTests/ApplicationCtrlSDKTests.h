@@ -1,6 +1,6 @@
 //
-//  OpsCheckSDKTests.h
-//  OpsCheckSDKTests
+//  ApplicationCtrlSDKTests.h
+//  ApplicationCtrlSDKTests
 //
 //  Created by Giuseppe Macri on 8/14/13.
 //  Copyright (c) 2013 Slalom. All rights reserved.

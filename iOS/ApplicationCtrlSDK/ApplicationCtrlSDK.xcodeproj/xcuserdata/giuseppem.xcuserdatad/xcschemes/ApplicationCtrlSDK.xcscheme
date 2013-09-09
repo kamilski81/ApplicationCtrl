@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EF50049017BBF6BD00DE7788"
-               BuildableName = "OpsCheckSDK.framework"
+               BuildableName = "ApplicationCtrlSDK.framework"
                BlueprintName = "ApplicationCtrlSDK"
                ReferencedContainer = "container:ApplicationCtrlSDK.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EF5004A117BBF6BD00DE7788"
-               BuildableName = "OpsCheckSDKTests.octest"
+               BuildableName = "ApplicationCtrlSDKTests.octest"
                BlueprintName = "ApplicationCtrlSDKTests"
                ReferencedContainer = "container:ApplicationCtrlSDK.xcodeproj">
             </BuildableReference>

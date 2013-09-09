@@ -11,7 +11,7 @@
 		EF50049B17BBF6BD00DE7788 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF50049917BBF6BD00DE7788 /* InfoPlist.strings */; };
 		EF5004A417BBF6BD00DE7788 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5004A317BBF6BD00DE7788 /* SenTestingKit.framework */; };
 		EF5004A717BBF6BD00DE7788 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF50049417BBF6BD00DE7788 /* Foundation.framework */; };
-		EF5004AC17BBF6BD00DE7788 /* OpsCheckSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF50049117BBF6BD00DE7788 /* OpsCheckSDK.framework */; };
+		EF5004AC17BBF6BD00DE7788 /* ApplicationCtrlSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF50049117BBF6BD00DE7788 /* ApplicationCtrlSDK.framework */; };
 		EF5004B217BBF6BD00DE7788 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF5004B017BBF6BD00DE7788 /* InfoPlist.strings */; };
 		EF5004B517BBF6BD00DE7788 /* ApplicationCtrlSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5004B417BBF6BD00DE7788 /* ApplicationCtrlSDKTests.m */; };
 		EF5004C517BBF7E500DE7788 /* ApplicationCtrl.h in Headers */ = {isa = PBXBuildFile; fileRef = EF5004C317BBF7E500DE7788 /* ApplicationCtrl.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,24 +27,24 @@
 			containerPortal = EF50048517BBF6BD00DE7788 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EF50049017BBF6BD00DE7788;
-			remoteInfo = OpsCheckSDK;
+			remoteInfo = ApplicationCtrlSDK;
 		};
 		EF5004AA17BBF6BD00DE7788 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EF50048517BBF6BD00DE7788 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EF50049017BBF6BD00DE7788;
-			remoteInfo = OpsCheckSDK;
+			remoteInfo = ApplicationCtrlSDK;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EF50049117BBF6BD00DE7788 /* OpsCheckSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = OpsCheckSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF50049117BBF6BD00DE7788 /* ApplicationCtrlSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = ApplicationCtrlSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF50049417BBF6BD00DE7788 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EF50049817BBF6BD00DE7788 /* ApplicationCtrlSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ApplicationCtrlSDK-Info.plist"; sourceTree = "<group>"; };
 		EF50049A17BBF6BD00DE7788 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EF50049C17BBF6BD00DE7788 /* ApplicationCtrlSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ApplicationCtrlSDK-Prefix.pch"; sourceTree = "<group>"; };
-		EF5004A217BBF6BD00DE7788 /* OpsCheckSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpsCheckSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF5004A217BBF6BD00DE7788 /* ApplicationCtrlSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationCtrlSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5004A317BBF6BD00DE7788 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		EF5004AF17BBF6BD00DE7788 /* ApplicationCtrlSDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ApplicationCtrlSDKTests-Info.plist"; sourceTree = "<group>"; };
 		EF5004B117BBF6BD00DE7788 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 				EF5004CA17BBF8D900DE7788 /* UIKit.framework in Frameworks */,
 				EF5004A417BBF6BD00DE7788 /* SenTestingKit.framework in Frameworks */,
 				EF5004A717BBF6BD00DE7788 /* Foundation.framework in Frameworks */,
-				EF5004AC17BBF6BD00DE7788 /* OpsCheckSDK.framework in Frameworks */,
+				EF5004AC17BBF6BD00DE7788 /* ApplicationCtrlSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,8 +93,8 @@
 		EF50049217BBF6BD00DE7788 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EF50049117BBF6BD00DE7788 /* OpsCheckSDK.framework */,
-				EF5004A217BBF6BD00DE7788 /* OpsCheckSDKTests.octest */,
+				EF50049117BBF6BD00DE7788 /* ApplicationCtrlSDK.framework */,
+				EF5004A217BBF6BD00DE7788 /* ApplicationCtrlSDKTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,7 +118,7 @@
 				EF5004C417BBF7E500DE7788 /* ApplicationCtrl.m */,
 			);
 			name = ApplicationCtrlSDK;
-			path = OpsCheckSDK;
+			path = ApplicationCtrlSDK;
 			sourceTree = "<group>";
 		};
 		EF50049717BBF6BD00DE7788 /* Supporting Files */ = {
@@ -139,7 +139,7 @@
 				EF5004AE17BBF6BD00DE7788 /* Supporting Files */,
 			);
 			name = ApplicationCtrlSDKTests;
-			path = OpsCheckSDKTests;
+			path = ApplicationCtrlSDKTests;
 			sourceTree = "<group>";
 		};
 		EF5004AE17BBF6BD00DE7788 /* Supporting Files */ = {
@@ -183,8 +183,8 @@
 			dependencies = (
 			);
 			name = ApplicationCtrlSDK;
-			productName = OpsCheckSDK;
-			productReference = EF50049117BBF6BD00DE7788 /* OpsCheckSDK.framework */;
+			productName = ApplicationCtrlSDK;
+			productReference = EF50049117BBF6BD00DE7788 /* ApplicationCtrlSDK.framework */;
 			productType = "com.apple.product-type.framework.static";
 		};
 		EF5004A117BBF6BD00DE7788 /* ApplicationCtrlSDKTests */ = {
@@ -203,8 +203,8 @@
 				EF5004AB17BBF6BD00DE7788 /* PBXTargetDependency */,
 			);
 			name = ApplicationCtrlSDKTests;
-			productName = OpsCheckSDKTests;
-			productReference = EF5004A217BBF6BD00DE7788 /* OpsCheckSDKTests.octest */;
+			productName = ApplicationCtrlSDKTests;
+			productReference = EF5004A217BBF6BD00DE7788 /* ApplicationCtrlSDKTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -424,8 +424,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpsCheckSDK/ApplicationCtrlSDK-Prefix.pch";
-				INFOPLIST_FILE = "OpsCheckSDK/ApplicationCtrlSDK-Info.plist";
+				GCC_PREFIX_HEADER = "ApplicationCtrlSDK/ApplicationCtrlSDK-Prefix.pch";
+				INFOPLIST_FILE = "ApplicationCtrlSDK/ApplicationCtrlSDK-Info.plist";
 				PRODUCT_NAME = ApplicationCtrlSDK;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
@@ -443,8 +443,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpsCheckSDK/ApplicationCtrlSDK-Prefix.pch";
-				INFOPLIST_FILE = "OpsCheckSDK/ApplicationCtrlSDK-Info.plist";
+				GCC_PREFIX_HEADER = "ApplicationCtrlSDK/ApplicationCtrlSDK-Prefix.pch";
+				INFOPLIST_FILE = "ApplicationCtrlSDK/ApplicationCtrlSDK-Info.plist";
 				PRODUCT_NAME = ApplicationCtrlSDK;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
@@ -459,8 +459,8 @@
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpsCheckSDK/OpsCheckSDK-Prefix.pch";
-				INFOPLIST_FILE = "OpsCheckSDKTests/ApplicationCtrlSDKTests-Info.plist";
+				GCC_PREFIX_HEADER = "ApplicationCtrlSDK/ApplicationCtrlSDK-Prefix.pch";
+				INFOPLIST_FILE = "ApplicationCtrlSDKTests/ApplicationCtrlSDKTests-Info.plist";
 				PRODUCT_NAME = ApplicationCtrlSDKTests;
 				VALID_ARCHS = "armv7 armv7s i386";
 				WRAPPER_EXTENSION = octest;
@@ -475,8 +475,8 @@
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpsCheckSDK/OpsCheckSDK-Prefix.pch";
-				INFOPLIST_FILE = "OpsCheckSDKTests/ApplicationCtrlSDKTests-Info.plist";
+				GCC_PREFIX_HEADER = "ApplicationCtrlSDK/ApplicationCtrlSDK-Prefix.pch";
+				INFOPLIST_FILE = "ApplicationCtrlSDKTests/ApplicationCtrlSDKTests-Info.plist";
 				PRODUCT_NAME = ApplicationCtrlSDKTests;
 				VALID_ARCHS = "armv7 armv7s i386";
 				WRAPPER_EXTENSION = octest;
