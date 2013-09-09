@@ -10,6 +10,6 @@
 
 
 
-@interface OpsCheckSDKTests : SenTestCase
+@interface ApplicationCtrlSDKTests : SenTestCase
 
 @end

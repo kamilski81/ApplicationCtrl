@@ -11,12 +11,12 @@
 typedef void (^OpsCheckCompletionHanlder)(BOOL connect, BOOL forceUpdate, NSInteger status, NSString *message, NSError *error);
 
 
-@interface OpsCheck : NSObject
+@interface ApplicationCtrl : NSObject
 
 /**
  * Init the OpsCheck singleton class
  */
-+ (OpsCheck *)opsCheckWithAppKey:(NSString *)appKey;
++ (ApplicationCtrl *)opsCheckWithAppKey:(NSString *)appKey;
 
 
 /**

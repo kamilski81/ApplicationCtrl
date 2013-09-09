@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Slalom. All rights reserved.
 //
 
-#import "OpsCheck.h"
+#import "ApplicationCtrl.h"
 #import "Constants.h"
 #import <UIKit/UIKit.h>
 
 
 
-@interface OpsCheck () <NSURLConnectionDataDelegate, UIWebViewDelegate>
+@interface ApplicationCtrl () <NSURLConnectionDataDelegate, UIWebViewDelegate>
 
 @property (nonatomic, strong) NSString *opsCheckServer;
 @property (nonatomic, strong) NSString *appKey;
@@ -23,11 +23,11 @@
 
 @end
 
-@implementation OpsCheck
+@implementation ApplicationCtrl
 
-+ (OpsCheck *)opsCheckWithAppKey:(NSString *)appKey {
++ (ApplicationCtrl *)opsCheckWithAppKey:(NSString *)appKey {
     static dispatch_once_t _singletonPredicate;
-    static OpsCheck *_singleton = nil;
+    static ApplicationCtrl *_singleton = nil;
     
     dispatch_once(&_singletonPredicate, ^{
         _singleton = [[self alloc] initWithappKey:appKey];

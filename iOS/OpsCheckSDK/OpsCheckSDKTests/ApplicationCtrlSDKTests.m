@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Slalom. All rights reserved.
 //
 
-#import "OpsCheckSDKTests.h"
-#import "OpsCheck.h"
+#import "ApplicationCtrlSDKTests.h"
+#import "ApplicationCtrl.h"
 #import "Constants.h"
 
 #define TEST_APP_KEY @"OPSCHECK_APP_KEY"
@@ -26,7 +26,7 @@
 /**
  * Nicer way to access "private" methods and test them
  */
-@interface OpsCheck (Test)
+@interface ApplicationCtrl (Test)
 
 - (NSString *)requestURL;
 
@@ -35,14 +35,14 @@
 @end
 
 
-@interface OpsCheckSDKTests ()
+@interface ApplicationCtrlSDKTests ()
 
-@property (atomic, strong) OpsCheck *opsCheck;
+@property (atomic, strong) ApplicationCtrl *opsCheck;
 @property (nonatomic, strong) NSBundle *testBundle;
 
 @end
 
-@implementation OpsCheckSDKTests
+@implementation ApplicationCtrlSDKTests
 
 - (void)setUp {
     [super setUp];
@@ -63,7 +63,7 @@
     /**
      * This is an hack to access "private" fields in the ops class so I can test URL creation
      */
-    self.opsCheck = [OpsCheck opsCheckWithAppKey:appKey];
+    self.opsCheck = [ApplicationCtrl opsCheckWithAppKey:appKey];
     [self.opsCheck setValue:appVersion forKey:TEST_APP_VERSION];
     [self.opsCheck setValue:appBuild forKey:TEST_APP_BUILD];
     [self.opsCheck setValue:opsCheckServer forKey:TEST_OPSCHECK_SERVER];
