@@ -37,7 +37,7 @@ group = Group.create!(
 
 group_admin = User.create!(
     {
-        :email => 'group_manage@slalom.com',
+        :email => 'group_manager@slalom.com',
         :password => 'race2win',
         :password_confirmation => 'race2win',
     }

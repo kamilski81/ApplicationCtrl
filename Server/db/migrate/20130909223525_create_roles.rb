@@ -7,7 +7,7 @@ class CreateRoles < ActiveRecord::Migration
     end
 
     Role.create!({name: 'admin'})
-    Role.create!({name: 'group_admin'})
+    Role.create!({name: 'group_manager'})
     Role.create!({name: 'contributor'})
 
   end
