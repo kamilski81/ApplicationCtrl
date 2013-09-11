@@ -28,6 +28,8 @@ gem 'jbuilder'
 
 gem 'nokogiri'
 
+gem 'cancan'
+
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
