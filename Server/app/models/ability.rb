@@ -15,9 +15,8 @@ class Ability
       can :manage, Versioning, :app => {:group => { :id => group_ids}}
     elsif user.role? 'contributor'
       can :read, App, :group => {:id => group_ids}
-      #can :read, Versioning, :app => { :group => { :id => group_ids}}
+      can [:read, :update], Versioning, :app => { :group => { :id => group_ids}}
     end
-
 
 
     #else
