@@ -1,4 +1,4 @@
-class CreateGroupsUsersTable < ActiveRecord::Migration
+class CreateGroupsUsers < ActiveRecord::Migration
   def change
     create_table :groups_users,:id => false do |t|
       t.references :group
