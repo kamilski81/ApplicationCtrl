@@ -30,7 +30,7 @@ admin.save!
 
 group_admin = User.create!(
     {
-        :email => 'group_admin@slalom.com',
+        :email => 'group_manage@slalom.com',
         :password => 'race2win',
         :password_confirmation => 'race2win',
     }
@@ -41,7 +41,7 @@ group_admin.save!
 
 group_manager = User.create!(
     {
-        :email => 'group_manager@slalom.com',
+        :email => 'contributor@slalom.com',
         :password => 'race2win',
         :password_confirmation => 'race2win',
     }

@@ -10,5 +10,7 @@ class CreateVersionings < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :versionings, [:version, :build, :app_id], :unique => true
   end
 end

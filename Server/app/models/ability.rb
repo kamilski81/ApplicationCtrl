@@ -7,15 +7,14 @@ class Ability
     user ||= User.new # guest user (not logged in)
     if user.role? 'admin'
       can :manage, :all
-    end
-
-    if user.role? 'group_admin'
+    elsif user.role? 'group_manager'
       group_ids = user.groups.map {|group| group.id}
       can :read, :all
       can :manage, Group, :id => group_ids
       can :manage, App, :group => { :id => group_ids}
-      can :manage, :groups_users, :group => { :id => group_ids}
-
+      can :manage, UserGroup, :group => { :id => group_ids}
+    elsif user.role? 'contributor'
+      can :read, all
     end
 
 
