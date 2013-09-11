@@ -6,9 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-admin_role = Role.create!({name: 'admin'})
-group_admin_role = Role.create!({name: 'group_admin'})
-group_manager_role = Role.create!({name: 'group_manager'})
+admin_role = Role.find(1)
+group_admin_role = Role.find(2)
+group_manager_role = Role.find(3)
 
 
 group = Group.create!(
