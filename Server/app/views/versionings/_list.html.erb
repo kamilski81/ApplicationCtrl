@@ -14,7 +14,7 @@
     </thead>
 
     <tbody>
-    <% @versionings.each do |versioning| %>
+    <% @app.versionings.each do |versioning| %>
         <tr class="<%= versioning_status(versioning) %>">
           <td class="version-app-name-cell"><%= versioning.app.name %></td>
           <td><%= versioning.version %></td>

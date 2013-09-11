@@ -2,15 +2,22 @@ class AppsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_app, only: [:show, :edit, :update, :destroy]
 
+  # cancan
+  load_and_authorize_resource
+  skip_authorize_resource :only => :new
+
+  # cancan exception
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
+
   # GET /apps
   def index
-    user = current_user
-    @apps = App.where(:group_id => user.groups)
   end
 
   # GET /apps/1
   def show
-    @versionings = @app.versionings
   end
 
   # GET /apps/new
@@ -36,7 +43,6 @@ class AppsController < ApplicationController
 
   # PATCH/PUT /apps/1
   def update
-    # TODO: use cancan to check ability
     if @app.update(app_params)
       redirect_to @app, notice: 'App was successfully updated.'
     else

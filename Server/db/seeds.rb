@@ -13,7 +13,7 @@ group_manager_role = Role.find(3)
 
 group = Group.create!(
     {
-        :name => 'Slalom Digital'
+        :name => 'ADMIN'
     }
 )
 
@@ -27,6 +27,13 @@ admin = User.create!(
 admin.groups << group
 admin.roles << admin_role
 admin.save!
+
+
+group = Group.create!(
+    {
+        :name => 'Slalom Digital'
+    }
+)
 
 group_admin = User.create!(
     {
@@ -50,12 +57,45 @@ group_manager.groups << group
 group_manager.roles << group_manager_role
 group_manager.save!
 
-App.create!(
+power_up = App.create!(
+    {
+        :name => 'PowerUp',
+        :identifier => 'com.slalom.PowerUp',
+        :app_type => 'iOS',
+        :url => 'https://itunes.apple.com/us/app/powerup/id577848463',
+        :group_id => group.id
+    }
+)
+
+Versioning.create!(
+    {
+       :version => '1.0',
+       :build => '1.0',
+       :app => power_up
+    }
+)
+
+
+group = Group.create!(
+    {
+        :name => 'MLevel'
+    }
+)
+
+m_level = App.create!(
     {
         :name => 'MLevel iOS',
         :identifier => 'com.slalom.mlevel',
         :app_type => 'iOS',
         :url => 'https://itunes.apple.com/us/app/mlevel/id577848463',
         :group_id => group.id
+    }
+)
+
+Versioning.create!(
+    {
+        :version => '1.0',
+        :build => '1.0',
+        :app => m_level
     }
 )

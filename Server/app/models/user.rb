@@ -11,8 +11,12 @@ class User < ActiveRecord::Base
   has_many :positions
   has_many :roles, through: :positions
 
+
+  # next step is to merge user_group table with position
+  # we can define a different role for each group
   def role?(role)
-    return !!self.roles.where(name: role)
+    role_result = self.roles.where(name: role)
+    return !role_result.blank?
   end
 
 end

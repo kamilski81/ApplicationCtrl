@@ -5,16 +5,17 @@ class Ability
     # Define abilities for the passed in user here. For example:
     #
     user ||= User.new # guest user (not logged in)
+    group_ids = user.groups.map {|group| group.id}
     if user.role? 'admin'
       can :manage, :all
     elsif user.role? 'group_manager'
-      group_ids = user.groups.map {|group| group.id}
-      can :read, :all
       can :manage, Group, :id => group_ids
-      can :manage, App, :group => { :id => group_ids}
-      can :manage, UserGroup, :group => { :id => group_ids}
+      can :manage, App, :group => {:id => group_ids}
+      can :manage, UserGroup, :group => {:id => group_ids}
+      can :manage, Versioning, :app => {:group => { :id => group_ids}}
     elsif user.role? 'contributor'
-      can :read, all
+      can :read, App, :group => {:id => group_ids}
+      #can :read, Versioning, :app => { :group => { :id => group_ids}}
     end
 
 
