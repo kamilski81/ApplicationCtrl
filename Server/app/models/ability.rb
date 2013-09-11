@@ -13,9 +13,11 @@ class Ability
       can :manage, App, :group => {:id => group_ids}
       can :manage, UserGroup, :group => {:id => group_ids}
       can :manage, Versioning, :app => {:group => { :id => group_ids}}
+      can :manage, Group, :id => group_ids
     elsif user.role? 'contributor'
       can :read, App, :group => {:id => group_ids}
       can [:read, :update], Versioning, :app => { :group => { :id => group_ids}}
+      can :read, Group, :id => group_ids
     end
 
 

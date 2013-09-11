@@ -1,10 +1,18 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
+  # cancan
+  load_and_authorize_resource
+  skip_authorize_resource :only => :new
+
+  # cancan exception
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
   end
 
   # GET /groups/1
