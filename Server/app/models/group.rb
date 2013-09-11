@@ -1,7 +1,7 @@
 class Group < ActiveRecord::Base
   has_many :applications
 
-  has_many :positions
-  has_many :users, through: :positions
+  has_many :user_groups
+  has_many :users, through: :user_groups
 
 end
