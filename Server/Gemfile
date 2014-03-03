@@ -29,7 +29,12 @@ gem 'nokogiri'
 gem 'devise'
 gem 'cancan'
 
+gem 'rails_admin'
+
+gem 'paper_trail', '~> 3.0.0'
+
 gem 'capybara', '>= 2.2.0'
+
 
 
 # Reading settings files

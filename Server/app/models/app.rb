@@ -1,5 +1,7 @@
 class App < ActiveRecord::Base
 
+  has_paper_trail
+
   belongs_to :team
   has_many :versionings
 
