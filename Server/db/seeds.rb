@@ -69,9 +69,25 @@ power_up = App.create!(
 
 Versioning.create!(
     {
-       :version => '1.0',
-       :build => '1.0',
-       :app => power_up
+        :version => '1.0',
+        :build => '1.0',
+        :app => power_up
+    }
+)
+
+Versioning.create!(
+    {
+        :version => '1.0',
+        :build => '2.0',
+        :app => power_up
+    }
+)
+
+Versioning.create!(
+    {
+        :version => '1.0',
+        :build => '3.0',
+        :app => power_up
     }
 )
 
