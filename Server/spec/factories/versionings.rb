@@ -2,10 +2,9 @@
 
 FactoryGirl.define do
   factory :versioning do
-    version "MyString"
-    build "MyString"
-    warning false
-    force_update false
+    sequence(:version) { |n| "v-#{n}" }
+    sequence(:build)
+    status 'WORKING'
     association :app, factory: :app
   end
 end
