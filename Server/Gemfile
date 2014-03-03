@@ -20,14 +20,18 @@ gem 'simple_form'
 
 gem 'unicorn'
 
-gem 'devise'
 gem 'turbolinks'
 
 gem 'jbuilder'
 
 gem 'nokogiri'
 
+gem 'devise'
 gem 'cancan'
+
+
+# Reading settings files
+gem 'rails_config'
 
 group :assets do
   gem 'sass-rails'
@@ -44,7 +48,7 @@ end
 
 group :development, :test do
   gem 'factory_girl_rails'
-  gem 'rspec-rails', '>= 2.14'
+  gem 'rspec-rails', '~> 3.0.0.beta'
 end
 
 group :test do

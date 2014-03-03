@@ -6,7 +6,7 @@ class CreateApps < ActiveRecord::Migration
       t.string :key, null: false
       t.string :app_type, null: false, default: 'iOS'
       t.string :url, null: false
-      t.references :group, null: false
+      t.references :team, null: false
 
       t.timestamps
     end
@@ -14,6 +14,6 @@ class CreateApps < ActiveRecord::Migration
     add_index :apps, :key, :unique => true
     add_index :apps, :app_type
     add_index :apps, :name
-    add_index :apps, :group_id
+    add_index :apps, :team_id
   end
 end

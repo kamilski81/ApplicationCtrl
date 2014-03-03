@@ -1,8 +1,9 @@
-<%= simple_form_for(@group) do |f| %>
+<%= simple_form_for(@team) do |f| %>
   <%= f.error_notification %>
 
   <div class="inputs">
     <%= f.input :name %>
+    <%= f.input :description %>
   </div>
 
   <div class="actions">

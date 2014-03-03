@@ -4,22 +4,14 @@ class Ability
   def initialize(user)
     # Define abilities for the passed in user here. For example:
     #
-    user ||= User.new # guest user (not logged in)
-    group_ids = user.groups.map {|group| group.id}
-    if user.role? 'admin'
+    if user.is_admin
       can :manage, :all
-    elsif user.role? 'group_manager'
-      can :manage, Group, :id => group_ids
-      can :manage, App, :group => {:id => group_ids}
-      can :manage, UserGroup, :group => {:id => group_ids}
-      can :manage, Versioning, :app => {:group => { :id => group_ids}}
-      can :manage, Group, :id => group_ids
-    elsif user.role? 'contributor'
-      can :read, App, :group => {:id => group_ids}
-      can [:read, :update], Versioning, :app => { :group => { :id => group_ids}}
-      can :read, Group, :id => group_ids
+    elsif user
+      can :manage, :user, :team => { :id => user.team.id }
+      can :manage, :team, :id => user.team.id
+      can :manage, :app, :team => {:id => user.team.id}
+      can :manage, :versioning, :app => {:team => { :id => user.team.id}}
     end
-
 
     #else
     #  can :read, :all

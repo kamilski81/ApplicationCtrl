@@ -1,6 +1,6 @@
 ApplicationCtrl::Application.routes.draw do
 
-  resources :groups
+  resources :teams
 
   match 'versionings/check', to: 'versionings#check', via: :get
   resources :versionings
