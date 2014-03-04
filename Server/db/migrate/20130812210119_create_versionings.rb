@@ -3,7 +3,7 @@ class CreateVersionings < ActiveRecord::Migration
     create_table :versionings do |t|
       t.string :profile, null: false, default: '1.0.0'
       t.string :build, null: false
-      t.string :status, null: false, default: 'WORKING'
+      t.integer :status, null: false, default: 0
       t.text :content, :limit => 4294967295
       t.references :app, index: true, null: false
 

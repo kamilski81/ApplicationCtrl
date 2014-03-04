@@ -1,16 +1,12 @@
 module VersioningsHelper
 
   def versioning_status(status)
-
-    if status == 'WORKING'
+    if status == 0
       'success'
-    elsif status == 'WARNING'
+    elsif status == 1
       'warning'
-    elsif status == 'UPDATE'
+    elsif status == 2
       'danger'
     end
-
   end
-
-
 end
