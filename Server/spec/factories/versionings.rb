@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :versioning do
-    sequence(:version) { |n| "v-#{n}" }
+    profile 'v-0.1'
     sequence(:build)
     status 'WORKING'
     association :app, factory: :app

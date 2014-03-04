@@ -8,7 +8,7 @@
       <th>Identifier</th>
       <th class="hidden-xs">App Key</th>
       <th>App type</th>
-      <th>User</th>
+      <th>Team</th>
       <th class="hidden"></th>
       <th class="hidden"></th>
       <th class="hidden"></th>
@@ -22,7 +22,7 @@
           <td><%= app.identifier %></td>
           <td class="hidden-xs"><%= app.key %></td>
           <td><%= app.app_type %></td>
-          <td><%= app.group.name %></td>
+          <td><%= app.team.name %></td>
           <td class="show-link hidden"><%= link_to 'Show', app %></td>
           <td class="edit-link hidden"><%= link_to 'Edit', edit_app_path(app) %></td>
           <td class="destroy-link hidden"><%= link_to 'Destroy', app, method: :delete, data: { confirm: 'Are you sure?' } %></td>

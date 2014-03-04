@@ -1,7 +1,7 @@
 class CreateVersionings < ActiveRecord::Migration
   def change
     create_table :versionings do |t|
-      t.string :version, null: false, default: '1.0.0'
+      t.string :profile, null: false, default: '1.0.0'
       t.string :build, null: false
       t.string :status, null: false, default: 'WORKING'
       t.text :content, :limit => 4294967295
@@ -10,6 +10,6 @@ class CreateVersionings < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :versionings, [:version, :build, :app_id], :unique => true
+    add_index :versionings, [:profile, :build, :app_id], :unique => true
   end
 end

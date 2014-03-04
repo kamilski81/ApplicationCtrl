@@ -11,7 +11,7 @@
 
 
 
-FactoryGirl.create(:admin)
+FactoryGirl.create(:admin, email: 'admin@appctrl.com')
 
 FactoryGirl.create(:team_with_users, name: 'Slalom Digital')
 FactoryGirl.create(:team_with_users, name: 'Slalom Consulting')

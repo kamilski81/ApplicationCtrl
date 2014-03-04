@@ -1,26 +1,24 @@
 <div class="table-responsive">
   <table class="table table-hover">
     <thead>
-    <tr>
-      <th class="version-app-name-header">App</th>
-      <th>Version</th>
-      <th>Build</th>
-      <th class="hidden-xs">Warning</th>
-      <th class="hidden-xs">Force Update</th>
-      <th class="hidden"></th>
-      <th class="hidden"></th>
-      <th class="hidden"></th>
-    </tr>
+        <tr>
+          <th class="version-app-name-header">App</th>
+          <th>Version</th>
+          <th>Build</th>
+          <th class="hidden-xs">Status</th>
+          <th class="hidden"></th>
+          <th class="hidden"></th>
+          <th class="hidden"></th>
+        </tr>
     </thead>
 
     <tbody>
     <% @versionings.each do |versioning| %>
-        <tr class="<%= versioning_status(versioning) %>">
+        <tr class="<%= versioning_status(versioning.status) %>">
           <td class="version-app-name-cell"><%= versioning.app.name %></td>
-          <td><%= versioning.version %></td>
+          <td><%= versioning.profile %></td>
           <td><%= versioning.build %></td>
-          <td class="hidden-xs"><%= versioning.warning %></td>
-          <td class="hidden-xs"><%= versioning.force_update %></td>
+          <td class="hidden-xs"><%= versioning.status %></td>
           <td class="show-link hidden"><%= link_to 'Show', versioning %></td>
           <td class="edit-link hidden"><%= link_to 'Edit', edit_versioning_path(versioning) %></td>
           <td class="destroy-link hidden"><%= link_to 'Destroy', versioning, method: :delete, data: { confirm: 'Are you sure?' } %></td>

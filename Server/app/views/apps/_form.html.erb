@@ -6,7 +6,7 @@
     <%= f.input :identifier %>
     <%= f.input :app_type, priority: 'iOS', collection: app_type_list() %>
     <%= f.input :url %>
-    <%= f.association :group, label_method: :name %>
+    <%= f.association :team, label_method: :name %>
   </div>
 
   <div class="actions">

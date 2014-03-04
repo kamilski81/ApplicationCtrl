@@ -16,14 +16,13 @@
   <%= render 'flashes' -%>
   <%= yield %>
   <footer class="footer">
-    <p>&copy; Slalom 2013</p>
-
     <% if user_signed_in? %>
         <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, :class => 'btn' %>
         <%= link_to current_user.email, edit_user_registration_path, :class => 'btn btn-primary' %>
     <% else %>
         <%= link_to "Sign in", new_user_session_path %>
     <% end %>
+    <p>&copy; Slalom 2013</p>
   </footer>
 </div>
 

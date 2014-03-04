@@ -1,13 +1,15 @@
 module VersioningsHelper
 
-  def versioning_status(versioning)
-    if (not versioning.warning) && (not versioning.force_update)
+  def versioning_status(status)
+
+    if status == 'WORKING'
       'success'
-    elsif versioning.warning && (not versioning.force_update)
+    elsif status == 'WARNING'
       'warning'
-    elsif versioning.warning && versioning.force_update
+    elsif status == 'UPDATE'
       'danger'
     end
+
   end
 
 

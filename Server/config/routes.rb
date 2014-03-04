@@ -1,5 +1,6 @@
 ApplicationCtrl::Application.routes.draw do
 
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   resources :teams
 
   match 'versionings/check', to: 'versionings#check', via: :get

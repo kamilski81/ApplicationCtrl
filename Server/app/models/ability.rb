@@ -6,11 +6,13 @@ class Ability
     #
     if user.is_admin
       can :manage, :all
+      can :access, :rails_admin   # grant access to rails_admin
+      can :dashboard              # grant access to the dashboard
     elsif user
-      can :manage, :user, :team => { :id => user.team.id }
-      can :manage, :team, :id => user.team.id
-      can :manage, :app, :team => {:id => user.team.id}
-      can :manage, :versioning, :app => {:team => { :id => user.team.id}}
+      can :manage, User, :team => { :id => user.team.id }
+      can :manage, Team, :id => user.team.id
+      can :manage, App, :team => {:id => user.team.id}
+      can :manage, Versioning, :app => {:team => { :id => user.team.id}}
     end
 
     #else

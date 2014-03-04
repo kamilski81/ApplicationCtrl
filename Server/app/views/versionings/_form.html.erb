@@ -1,25 +1,12 @@
 <%= simple_form_for(@versioning, html: {class: 'form', role: 'form'}) do |f| %>
-    <%= f.error_notification %>
 
-
-    <%= f.input :version, input_html: {class: 'form-control'}, wrapper_html: {class: 'form-group'} %>
-
-
+    <%= f.input :profile, input_html: {class: 'form-control'}, wrapper_html: {class: 'form-group'} %>
 
     <%= f.input :build, input_html: {class: 'form-control'}, wrapper_html: {class: 'form-group'} %>
 
-
-
-    <%= f.input :warning, input_html: {class: 'checkbox'}, wrapper_html: {class: 'checkbox'} %>
-
-
-
-    <%= f.input :force_update, input_html: {class: 'checkbox'}, wrapper_html: {class: 'checkbox'} %>
-
-
+    <%= f.input :status, input_html: {class: 'checkbox'}%>
 
     <%= f.association :app, input_html: {class: 'form-control'}, wrapper_html: {class: 'form-group'} %>
-
 
     <%= f.input :content, :as => :text, input_html: {id: 'content'} %>
 
