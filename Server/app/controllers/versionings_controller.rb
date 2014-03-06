@@ -80,7 +80,7 @@ class VersioningsController < ApplicationController
       @application = App.where(key: app_key).first
 
       if @application
-        @versioning = Versioning.where(app_id: @application.id, version: version, build: build).first
+        @versioning = Versioning.where(app_id: @application.id, profile: profile, build: build).first
         if @versioning.nil?
           versioning_params = check_versioning_params.except(:app_key)
           versioning_params.merge!({:app_id => @application.id})
@@ -129,7 +129,7 @@ class VersioningsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def versioning_params
-      params.require(:versioning).permit(:version, :build, :status, :content, :app_id)
+      params.require(:versioning).permit(:profile, :build, :status, :content, :app_id)
     end
 
     # API CALL for check params

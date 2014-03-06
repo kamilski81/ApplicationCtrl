@@ -7,7 +7,8 @@
           <%= render 'content', description: @description %>
       <% end %>
 
-      <% if @versioning.warning %>
+      <!--warning-->
+      <% if @versioning.status == Settings.version_status[1].code %>
           <p>
             <a href="<%= @application.url %>" class="btn btn-lg btn-success">
               Update Now!
@@ -26,7 +27,7 @@
 </div>
 <div class="row">
   <% if not @versioning.nil? %>
-      <% if (@versioning.status != 2) %>
+      <% if (@versioning.status != Settings.version_status[2].code ) %>
           <a href="app://close-view" class="btn btn-primary btn-lg btn-block">Close this window</a>
       <% end %>
   <% end %>
