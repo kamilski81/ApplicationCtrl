@@ -59,7 +59,7 @@ class VersioningsController < ApplicationController
 
   # GET /versionings/check
   def check
-    header = 'CONNECT'
+    header = Settings.version_status_header_responses.success
     version_check_header =  'Version-Check'
     version_check_force_header = 'Version-Check-Force'
     app_key = params[:app_key]
@@ -87,7 +87,7 @@ class VersioningsController < ApplicationController
           @versioning = Versioning.create(versioning_params)
 
           if @versioning.save == false
-            header = "DON'T CONNECT"
+            header = Settings.version_status_header_responses.error
             @description = 'Not able to save the current version information into the db!'
           end
 
@@ -95,13 +95,13 @@ class VersioningsController < ApplicationController
 
           if @versioning.warning
             @description = 'Your current application version is outdated. Please update!'
-            header = "DON'T CONNECT"
+            header = Settings.version_status_header_responses.error
           end
 
         end
 
         response.headers[version_check_header] = header
-        response.headers[version_check_force_header] = @versioning.force_update.to_s
+        response.headers[version_check_force_header] = @versioning.status.to_s
       else
         @application = App.none
         @description = "No application found with the following app key #{app_key}"

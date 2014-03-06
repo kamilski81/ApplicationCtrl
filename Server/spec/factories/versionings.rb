@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :versioning do
     profile 'v-0.1'
     sequence(:build)
-    status 0
+    status { [0, 1, 2].sample }
     association :app, factory: :app
   end
 end

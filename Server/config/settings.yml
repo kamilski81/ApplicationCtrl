@@ -1,2 +1,4 @@
-#version_status: [{label: 'WORKING', code: 0}, {label: 'WARNING', code: 1}, {label: 'UPDATE', code: 2}]
-version_status_codes: [0, 1 , 2]
+version_status: [{label: 'working', code: 0}, {label: 'message', code: 1}, {label: 'must_update', code: 2}]
+version_status_header_responses:
+  error: 'ERROR'
+  success: 'SUCCESS'

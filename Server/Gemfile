@@ -36,7 +36,6 @@ gem 'paper_trail', '~> 3.0.0'
 gem 'capybara', '>= 2.2.0'
 
 
-
 # Reading settings files
 gem 'rails_config'
 
