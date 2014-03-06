@@ -129,7 +129,7 @@ class VersioningsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def versioning_params
-      params.require(:versioning).permit(:version, :build, :warning, :force_update, :content, :app_id)
+      params.require(:versioning).permit(:version, :build, :status, :content, :app_id)
     end
 
     # API CALL for check params

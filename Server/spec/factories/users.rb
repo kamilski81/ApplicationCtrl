@@ -11,6 +11,7 @@ FactoryGirl.define do
 
 
     factory :admin do
+      sequence(:email) { |n| "admin#{n}@appctrl.com" }
       is_admin true
       team nil
     end
