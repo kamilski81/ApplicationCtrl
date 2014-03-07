@@ -2,8 +2,6 @@ class VersioningsController < ApplicationController
   before_action :authenticate_user!, except: [:check]
   before_action :set_versioning, only: [:show, :edit, :update, :destroy]
 
-  before_action :authenticate_user!
-
   # cancan
   load_and_authorize_resource
 
@@ -61,26 +59,26 @@ class VersioningsController < ApplicationController
   def check
     header = Settings.version_status_header_responses.success
     version_check_header =  'Version-Check'
-    version_check_force_header = 'Version-Check-Force'
+    version_check_status = 'Version-Check-Status'
     app_key = params[:app_key]
     version = params[:version]
     build = params[:build]
     response_format = params[:format] || :html
 
-    response.header[version_check_header] = ''
-    response.header[version_check_force_header] = ''
+    response.header[version_check_header] = header
+    response.header[version_check_status] = version_check_status
 
     status = :ok
+
     @description = 'Good to Go!'
 
     @application = App.none
-
 
     if (not app_key.nil?) && (not version.nil?) && (not build.nil?)
       @application = App.where(key: app_key).first
 
       if @application
-        @versioning = Versioning.where(app_id: @application.id, profile: profile, build: build).first
+        @versioning = Versioning.where(app_id: @application.id, profile: version, build: build).first
         if @versioning.nil?
           versioning_params = check_versioning_params.except(:app_key)
           versioning_params.merge!({:app_id => @application.id})
@@ -101,23 +99,26 @@ class VersioningsController < ApplicationController
         end
 
         response.headers[version_check_header] = header
-        response.headers[version_check_force_header] = @versioning.status.to_s
+        response.headers[version_check_status] = @versioning.status.to_s
       else
         @application = App.none
         @description = "No application found with the following app key #{app_key}"
         status = :unauthorized    # no app key found
       end
+
     else
+
       status = :bad_request
       @description = 'Please review the query parameters. Mandatory params: app_key, version, build. Optional: format'
+
     end
+
 
     if response_format == :html
       render layout: 'versioning', status: status  # URL is not well formed
     else
       render text: @description
     end
-    
 
   end
 
