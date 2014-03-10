@@ -57,16 +57,14 @@ class VersioningsController < ApplicationController
 
   # GET /versionings/check
   def check
-    header = Settings.version_status_header_responses.success
-    version_check_header =  'Version-Check'
-    version_check_status = 'Version-Check-Status'
+
+    version_check_header =  Settings.version_check_http_label
     app_key = params[:app_key]
     version = params[:version]
     build = params[:build]
     response_format = params[:format] || :html
 
-    response.header[version_check_header] = header
-    response.header[version_check_status] = version_check_status
+    response.header[version_check_header] = Settings.version_status[0].code # working
 
     status = :ok
 
@@ -85,21 +83,19 @@ class VersioningsController < ApplicationController
           @versioning = Versioning.create(versioning_params)
 
           if @versioning.save == false
-            header = Settings.version_status_header_responses.error
+            status = :internal_server_error
             @description = 'Not able to save the current version information into the db!'
           end
 
         else
 
-          if @versioning.warning
-            @description = 'Your current application version is outdated. Please update!'
-            header = Settings.version_status_header_responses.error
+          if @versioning.message?
+            @description = Settings.version_check_http_label
           end
 
         end
 
-        response.headers[version_check_header] = header
-        response.headers[version_check_status] = @versioning.status.to_s
+        response.headers[version_check_header] = @versioning.status.to_s
       else
         @application = App.none
         @description = "No application found with the following app key #{app_key}"
