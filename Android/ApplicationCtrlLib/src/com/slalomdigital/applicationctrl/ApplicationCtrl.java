@@ -13,9 +13,15 @@ import android.content.SharedPreferences;
 public class ApplicationCtrl {
     public static final String PREFERENCES = "applicationctrl_preferences";
     public static final String SHOULD_CONNECT = "should_connect";
+    public static Context context;
+
+    public static Context getContext() {
+        return context;
+    }
 
     public static void check(CheckListener checkListener, boolean showPopup, Context context) {
         // Create the async task and check
+        ApplicationCtrl.context = context;
         CheckTask checkTask = new CheckTask(checkListener, showPopup, context);
         checkTask.execute();
     }
