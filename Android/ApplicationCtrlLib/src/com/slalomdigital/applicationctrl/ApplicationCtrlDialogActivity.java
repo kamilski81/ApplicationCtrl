@@ -22,7 +22,7 @@ public class ApplicationCtrlDialogActivity extends Activity {
     public static final String EXTRA_TYPE = "extra_type";
     public static final String EXTRA_ENCODING = "extra_encoding";
     public static final String EXTRA_URL = "extra_url";
-    private class BeaconWebViewClient extends WebViewClient {
+    private class ApplicationCtrlWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 /*
@@ -76,7 +76,7 @@ public class ApplicationCtrlDialogActivity extends Activity {
     // helpers
     private void initializeBrowser(WebView browser) {
         browser.getSettings().setJavaScriptEnabled(true);
-        browser.setWebViewClient(new BeaconWebViewClient());
+        browser.setWebViewClient(new ApplicationCtrlWebViewClient());
     }
 }
 
