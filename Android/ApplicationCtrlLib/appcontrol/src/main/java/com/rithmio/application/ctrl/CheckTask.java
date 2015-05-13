@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Properties;
 
 /**
  * Created by kamil on 5/12/15.
@@ -28,19 +27,26 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CheckTask.class.getSimpleName();
 
+    private final Context mAppContext;
+    private final Context mActivityContext;
+    private final String mAppKey;
+    private final String mVersionCheckUrlEndpoint;
     private final CheckListener mCheckListener;
     private final boolean mShowPopUp;
-    private final Context mContext;
     private String mUrl;
+
     private HttpResponse mResponse;
     private String mType;
     private String mEncoding;
     private String mBody;
 
-    public CheckTask(CheckListener checkListener, boolean showPopup, Context context) {
+    public CheckTask(Context appContext, Context activityContext, String appKey, String versionCheckUrlEndpoint, CheckListener checkListener, boolean showPopup) {
+        mAppContext = appContext;
+        mActivityContext = activityContext;
+        mAppKey = appKey;
+        mVersionCheckUrlEndpoint = versionCheckUrlEndpoint;
         mCheckListener = checkListener;
         mShowPopUp = showPopup;
-        mContext = context;
     }
 
     @Override
@@ -48,32 +54,19 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
         boolean isOperatingNormally = true;
 
         String versionName = null;
-        int versionCode;
         String appName = null;
-        String key = null;
-        String server = null;
 
         try {
-            appName = mContext.getPackageName();
-            PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(appName, 0);
+            appName = mAppContext.getPackageName();
+            PackageInfo pInfo = mAppContext.getPackageManager().getPackageInfo(appName, 0);
             versionName = pInfo.versionName;
-            versionCode = pInfo.versionCode;
-
-            // Get the key and server
-            InputStream inputStream = mContext.getResources().getAssets().open("applicationctrl.properties");
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            key = properties.getProperty("key", null);
-            server = properties.getProperty("server", null);
-
-        } catch (PackageManager.NameNotFoundException | IOException e) {
-            Log.e(TAG, "Exception in CheckTask: " + e.getLocalizedMessage(), e);
+        } catch (PackageManager.NameNotFoundException e) {
             // Let the app operate normally when there's a problem with ApplicationCtrl
-            isOperatingNormally = true;
+            Log.e(TAG, "Exception in CheckTask: " + e.getLocalizedMessage(), e);
         }
 
-        if (!TextUtils.isEmpty(server) && !TextUtils.isEmpty(key) && !TextUtils.isEmpty(versionName) && !TextUtils.isEmpty(appName)) {
-            mUrl = server + "?app_key=" + key + "&version=" + versionName + "&build=" + appName;
+        if (!TextUtils.isEmpty(mVersionCheckUrlEndpoint) && !TextUtils.isEmpty(mAppKey) && !TextUtils.isEmpty(versionName) && !TextUtils.isEmpty(appName)) {
+            mUrl = mVersionCheckUrlEndpoint + "?app_key=" + mAppKey + "&version=" + versionName + "&build=" + appName;
 
 //            @kamtodo: use HttpURLConnection,  http://developer.android.com/reference/java/net/HttpURLConnection.html
             HttpClient httpClient = new DefaultHttpClient();
@@ -85,7 +78,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
                     // Check the server status in the headers
                     Header serverStatusHeader = mResponse.getFirstHeader("Version-Check");
                     if (serverStatusHeader != null && !serverStatusHeader.getValue().trim().equalsIgnoreCase("connect")) {
-                        // Connected to server, but Version-Check != 'connect'
+                        // Connected to server, but Version-Check != 'connect', which means we force upgrade
                         isOperatingNormally = false;
                     } else {
                         isOperatingNormally = true;
@@ -132,7 +125,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean isOperatingNormally) {
         // Show an alert if needed...
         if (mShowPopUp && !isOperatingNormally && mUrl != null && mBody != null) {
-            Intent intent = new Intent(mContext, ApplicationCtrlDialogActivity.class);
+            Intent intent = new Intent(mActivityContext, ApplicationCtrlDialogActivity.class);
             intent.putExtra(ApplicationCtrlDialogActivity.EXTRA_BODY, mBody);
 
             if (mType != null)
@@ -142,7 +135,7 @@ public class CheckTask extends AsyncTask<Void, Void, Boolean> {
                 intent.putExtra(ApplicationCtrlDialogActivity.EXTRA_ENCODING, mEncoding);
 
             intent.putExtra(ApplicationCtrlDialogActivity.EXTRA_URL, mUrl);
-            mContext.startActivity(intent);
+            mActivityContext.startActivity(intent);
         }
 
         // Call the callback if one was set...

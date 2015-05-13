@@ -7,17 +7,23 @@ import android.content.Context;
  */
 public class ApplicationCtrl {
 
-    public static Context context;
+    private final String mVersionCheckUrlEndpoint;
+    private final String mAppKey;
+    public Context mAppContext;
 
-
-    public static void check(Context context) {
-        ApplicationCtrl.check(null, true, context);
+    public ApplicationCtrl(Context appContext, String appKey, String versionCheckUrlEndpoint) {
+        mAppContext = appContext;
+        mAppKey = appKey;
+        mVersionCheckUrlEndpoint = versionCheckUrlEndpoint;
     }
 
-    public static void check(CheckListener checkListener, boolean showPopup, Context context) {
-        // Create the async task and check
-        ApplicationCtrl.context = context;
-        CheckTask checkTask = new CheckTask(checkListener, showPopup, context);
+    public void check(Context activityContext) {
+        check(activityContext, null, true);
+    }
+
+    public void check(Context activityContext, CheckListener checkListener, boolean showPopup) {
+        // Create the async task and check server
+        CheckTask checkTask = new CheckTask(mAppContext, activityContext, mAppKey, mVersionCheckUrlEndpoint, checkListener, showPopup);
         checkTask.execute();
     }
 }
